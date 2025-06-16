@@ -1,0 +1,251 @@
+.user-goals {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.goals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.goal-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.goal-card h3 {
+  margin: 0 0 1rem;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.target-time {
+  font-size: 1.25rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.current-best {
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.goal-progress {
+  background: #f0f0f0;
+  border-radius: 8px;
+  height: 20px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #4a90e2;
+  color: white;
+  text-align: center;
+  line-height: 20px;
+  font-size: 0.875rem;
+  transition: width 0.3s ease;
+}
+
+.goals-loading {
+  text-align: center;
+  padding: 2rem;
+}
+
+.loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #4a90e2;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.goals-error, .no-goals {
+  text-align: center;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 2rem auto;
+  max-width: 500px;
+}
+
+.set-goals-button, .edit-goals-button {
+  display: inline-block;
+  background: #4a90e2;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.set-goals-button:hover, .edit-goals-button:hover {
+  background: #357abd;
+}
+
+.edit-goals-button {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.goal-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.edit-goal-btn, .delete-goal-btn {
+  display: inline-block;
+  width: 120px;
+  padding: 0.7rem 0;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.edit-goal-btn {
+  background: #f1c40f;
+  color: #fff;
+}
+.edit-goal-btn:hover:not(:disabled) {
+  background: #b7950b;
+}
+
+.delete-goal-btn {
+  background: #e74c3c;
+  color: #fff;
+}
+.delete-goal-btn:hover:not(:disabled) {
+  background: #c0392b;
+}
+
+@media (max-width: 768px) {
+  .goals-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .goal-card {
+    padding: 1rem;
+  }
+}
+
+.edit-goal-form {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.edit-goal-select, .edit-goal-input {
+  width: 90px;
+  min-width: 0;
+  padding: 0.5rem 0.7rem;
+  border: 1.5px solid #b0bec5;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  margin-right: 0;
+  box-sizing: border-box;
+}
+
+.save-goal-btn, .cancel-goal-btn {
+  padding: 0.5rem 1.2rem;
+  font-size: 1.05rem;
+  border-radius: 8px;
+  font-weight: 700;
+  margin-right: 0.3rem;
+  white-space: nowrap;
+}
+
+.save-goal-btn {
+  background: #27ae60;
+  color: #fff;
+  border: none;
+  transition: background 0.2s;
+}
+.save-goal-btn:hover:not(:disabled) {
+  background: #1e8449;
+}
+
+.cancel-goal-btn {
+  background: #bbb;
+  color: #fff;
+  border: none;
+  transition: background 0.2s;
+}
+.cancel-goal-btn:hover:not(:disabled) {
+  background: #888;
+}
+
+.add-goal-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  background: #f8fafc;
+  border: 2px dashed #90caf9;
+  border-radius: 14px;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0.7rem 0.5rem;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.add-goal-btn {
+  background: #4a90e2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 1px 4px rgba(74,144,226,0.08);
+}
+.add-goal-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.add-goal-btn:hover:not(:disabled) {
+  background: #357abd;
+}
+
+@media (max-width: 600px) {
+  .add-goal-card {
+    max-width: 100%;
+    padding: 0.5rem 0.2rem;
+  }
+  .edit-goal-form {
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 100%;
+  }
+  .edit-goal-select, .edit-goal-input, .save-goal-btn, .cancel-goal-btn {
+    width: 100%;
+    min-width: 0;
+    margin-right: 0;
+  }
+} 

@@ -1,0 +1,28 @@
+.generate-plan-btn {
+    display: block;
+    margin: 2rem auto 1rem auto;
+    padding: 1.1rem 2.5rem;
+    background: linear-gradient(90deg, #fc4c02 60%, #e03e00 100%);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.25rem;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(252, 76, 2, 0.1);
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+    letter-spacing: 0.5px;
+  }
+  
+  .generate-plan-btn:hover,
+  .generate-plan-btn:focus {
+    background: linear-gradient(90deg, #e03e00 60%, #fc4c02 100%);
+    box-shadow: 0 4px 16px rgba(252, 76, 2, 0.14);
+    transform: translateY(-2px) scale(1.03);
+    outline: none;
+  }
+  
+  .generate-plan-btn:active {
+    background: #fc4c02;
+    transform: scale(0.98);
+  }

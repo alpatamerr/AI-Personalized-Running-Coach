@@ -1,0 +1,73 @@
+.social-login {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.social-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.social-divider::before,
+.social-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.social-divider span {
+  padding: 0 1rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.social-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.social-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: white;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.social-button:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-1px);
+}
+
+.social-button img {
+  width: 20px;
+  height: 20px;
+}
+
+.social-button.google {
+  color: #4285F4;
+}
+
+.social-button.strava {
+  color: #fc4c02;
+  border-color: #fc4c02;
+  font-weight: 600;
+  background: white;
+}
+
+.social-button.strava:hover {
+  background-color: #fc4c0215;
+  color: #e03e00;
+  border-color: #e03e00;
+}
