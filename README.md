@@ -2,7 +2,7 @@
 
 ## Project Description
 
-An AI-powered personalized running coach designed to analyze post-run performance and adjust periodic training plans. The system integrates with the Strava API to fetch user running data (distance, pace, cadence, and heart rate) and provides personalized training insights.
+An AI-powered personalized running coach that generates adaptive training plans based on users’ running data and goals. The system integrates with Strava’s API to fetch real running metrics (distance, pace, cadence, heart rate) and uses these along with user preferences to create and adjust 12–16 week training plans.
 
 ### Core Features
 1. **User Profile & Goal Setting**:
@@ -16,7 +16,7 @@ An AI-powered personalized running coach designed to analyze post-run performanc
    - Generates weekly running plans based on current stats and goals.
 
 4. **AI-Based Adjustments**:
-   - Uses machine learning models (linear regression or decision tree) to predict fatigue/performance trends and adjust plans.
+   - Applies machine learning models (such as linear regression and decision trees) to produce adaptive 12 to 16-week training plan adjustments based on ongoing performance and user-provided inputs.
 
 5. **Performance Dashboard**:
    - React-based dashboard to visualize weekly progress, pace, cadence over time, and goal tracking.
