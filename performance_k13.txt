@@ -1,0 +1,1 @@
+k=13, inertia=6732899.053600929, time=0.31 seconds

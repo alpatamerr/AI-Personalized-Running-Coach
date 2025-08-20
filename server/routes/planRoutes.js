@@ -153,6 +153,73 @@
 
 // module.exports = router;
 
+//Previous code
+// const express = require('express');
+// const router = express.Router();
+// const planController = require('../controllers/planController');
+// const pool = require('../config/db');
+
+// // Plan generation and stats
+// router.post('/generate-ai', planController.generateTrainingPlan);
+// router.get('/dashboard-stats', planController.getDashboardStats);
+
+
+// // Dynamically get a Strava/demo user ID for frontend
+// router.get('/strava-user-id', async (req, res) => {
+//   try {
+//     // Prefer a user with is_strava_user = true
+//     const { rows } = await pool.query(
+//       "SELECT id FROM users WHERE is_strava_user = true LIMIT 1"
+//     );
+//     if (rows.length) {
+//       return res.json({ userId: rows[0].id });
+//     }
+//     // Fallback: any user in run_data
+//     const fallback = await pool.query('SELECT DISTINCT user_id FROM run_data LIMIT 1');
+//     if (fallback.rows.length) {
+//       return res.json({ userId: fallback.rows[0].user_id });
+//     }
+//     res.status(404).json({ error: 'No Strava user found' });
+//   } catch (err) {
+//     res.status(500).json({ error: 'Database error' });
+//   }
+// });
+
+// // Recent activities for a user
+// router.get('/recent-activities', async (req, res) => {
+//   try {
+//     const { userId } = req.query;
+//     if (!userId) {
+//       return res.status(400).json({ error: "userId required" });
+//     }
+//     const { rows } = await pool.query(
+//       `SELECT run_date as date, distance_km as distance, duration_minutes, pace
+//        FROM run_data WHERE user_id = $1
+//        ORDER BY run_date DESC LIMIT 10`,
+//       [userId]
+//     );
+//     const activities = rows.map(row => ({
+//       date: row.date,
+//       distance: Number(row.distance).toFixed(2),
+//       time: formatMinutes(row.duration_minutes),
+//       pace: row.pace
+//     }));
+//     res.json({ activities });
+//   } catch (err) {
+//     res.status(500).json({ error: "Failed to fetch activities" });
+//   }
+// });
+
+// // Helper for formatting time
+// function formatMinutes(duration) {
+//   if (!duration) return "";
+//   const mins = Math.floor(duration);
+//   const secs = Math.round((duration - mins) * 60);
+//   return `${mins}:${secs.toString().padStart(2, '0')}`;
+// }
+
+// module.exports = router;
+
 const express = require('express');
 const router = express.Router();
 const planController = require('../controllers/planController');
@@ -161,8 +228,7 @@ const pool = require('../config/db');
 // Plan generation and stats
 router.post('/generate-ai', planController.generateTrainingPlan);
 router.get('/dashboard-stats', planController.getDashboardStats);
-
-
+router.get('/get-plan', planController.getTrainingPlan);
 // Dynamically get a Strava/demo user ID for frontend
 router.get('/strava-user-id', async (req, res) => {
   try {
@@ -208,8 +274,7 @@ router.get('/recent-activities', async (req, res) => {
     res.status(500).json({ error: "Failed to fetch activities" });
   }
 });
-
-// Helper for formatting time
+const { generateTrainingPlan } = require('../controllers/planController');
 function formatMinutes(duration) {
   if (!duration) return "";
   const mins = Math.floor(duration);

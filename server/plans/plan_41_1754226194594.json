@@ -1,0 +1,514 @@
+[
+  {
+    "week": 1,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 8.0,
+    "target_pace": 5.84,
+    "notes": "Begin with comfortable pace"
+  },
+  {
+    "week": 1,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 6.0,
+    "target_pace": 5.15,
+    "notes": "Tempo pace to improve speed"
+  },
+  {
+    "week": 1,
+    "day": "Friday",
+    "type": "Interval",
+    "distance_km": 6.0,
+    "target_pace": 4.45,
+    "notes": "Intervals for anaerobic capacity"
+  },
+  {
+    "week": 1,
+    "day": "Sunday",
+    "type": "Long Run",
+    "distance_km": 12.0,
+    "target_pace": 6.15,
+    "notes": "Build endurance"
+  },
+  {
+    "week": 2,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 8.8,
+    "target_pace": 5.84,
+    "notes": "Increase weekly mileage"
+  },
+  {
+    "week": 2,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 6.0,
+    "target_pace": 5.10,
+    "notes": "Slightly faster tempo"
+  },
+  {
+    "week": 2,
+    "day": "Friday",
+    "type": "Interval",
+    "distance_km": 6.0,
+    "target_pace": 4.45,
+    "notes": "Maintain interval intensity"
+  },
+  {
+    "week": 2,
+    "day": "Sunday",
+    "type": "Long Run",
+    "distance_km": 13.2,
+    "target_pace": 6.15,
+    "notes": "Progressive endurance base"
+  },
+  {
+    "week": 3,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 9.7,
+    "target_pace": 5.84,
+    "notes": "Build weekly volume"
+  },
+  {
+    "week": 3,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 6.0,
+    "target_pace": 5.10,
+    "notes": "Maintain tempo effort"
+  },
+  {
+    "week": 3,
+    "day": "Friday",
+    "type": "Interval",
+    "distance_km": 6.0,
+    "target_pace": 4.45,
+    "notes": "Focus on speed"
+  },
+  {
+    "week": 3,
+    "day": "Sunday",
+    "type": "Long Run",
+    "distance_km": 14.3,
+    "target_pace": 6.15,
+    "notes": "Long slow distance"
+  },
+  {
+    "week": 4,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 8.8,
+    "target_pace": 5.84,
+    "notes": "Recovery run"
+  },
+  {
+    "week": 4,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 6.0,
+    "target_pace": 5.08,
+    "notes": "Tempo to build threshold"
+  },
+  {
+    "week": 4,
+    "day": "Friday",
+    "type": "Interval",
+    "distance_km": 6.0,
+    "target_pace": 4.40,
+    "notes": "Intervals at race pace"
+  },
+  {
+    "week": 4,
+    "day": "Sunday",
+    "type": "Long Run",
+    "distance_km": 15.7,
+    "target_pace": 6.15,
+    "notes": "Peak long run before taper"
+  },
+  {
+    "week": 5,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 9.7,
+    "target_pace": 5.84,
+    "notes": "Easy recovery"
+  },
+  {
+    "week": 5,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 6.0,
+    "target_pace": 5.05,
+    "notes": "Focus on steady tempo"
+  },
+  {
+    "week": 5,
+    "day": "Friday",
+    "type": "Interval",
+    "distance_km": 6.0,
+    "target_pace": 4.40,
+    "notes": "Maintain high intensity"
+  },
+  {
+    "week": 5,
+    "day": "Sunday",
+    "type": "Long Run",
+    "distance_km": 16.3,
+    "target_pace": 6.15,
+    "notes": "Final long run before taper"
+  },
+  {
+    "week": 6,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 10.7,
+    "target_pace": 5.84,
+    "notes": "Increase volume"
+  },
+  {
+    "week": 6,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 6.0,
+    "target_pace": 5.02,
+    "notes": "Build tempo threshold"
+  },
+  {
+    "week": 6,
+    "day": "Friday",
+    "type": "Interval",
+    "distance_km": 6.0,
+    "target_pace": 4.38,
+    "notes": "Speed work for race pace"
+  },
+  {
+    "week": 6,
+    "day": "Sunday",
+    "type": "Long Run",
+    "distance_km": 17.9,
+    "target_pace": 6.15,
+    "notes": "Peak weekly long run"
+  },
+  {
+    "week": 7,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 9.7,
+    "target_pace": 5.84,
+    "notes": "Taper begins"
+  },
+  {
+    "week": 7,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 6.0,
+    "target_pace": 4.99,
+    "notes": "Maintain tempo effort"
+  },
+  {
+    "week": 7,
+    "day": "Friday",
+    "type": "Interval",
+    "distance_km": 6.0,
+    "target_pace": 4.36,
+    "notes": "Sharpen for race"
+  },
+  {
+    "week": 7,
+    "day": "Sunday",
+    "type": "Long Run",
+    "distance_km": 12.5,
+    "target_pace": 6.15,
+    "notes": "Last long run before race week"
+  },
+  {
+    "week": 8,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 8.0,
+    "target_pace": 5.84,
+    "notes": "Recovery run"
+  },
+  {
+    "week": 8,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 5.0,
+    "target_pace": 4.95,
+    "notes": "Maintain tempo"
+  },
+  {
+    "week": 8,
+    "day": "Friday",
+    "type": "Interval",
+    "distance_km": 4.0,
+    "target_pace": 4.30,
+    "notes": "Short, intense intervals"
+  },
+  {
+    "week": 8,
+    "day": "Sunday",
+    "type": "Race Week Taper",
+    "distance_km": 8.0,
+    "target_pace": 5.00,
+    "notes": "Reduce volume, focus on freshness"
+  },
+  {
+    "week": 9,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 8.0,
+    "target_pace": 5.84,
+    "notes": "Light run"
+  },
+  {
+    "week": 9,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 5.0,
+    "target_pace": 4.95,
+    "notes": "Sharpen"
+  },
+  {
+    "week": 9,
+    "day": "Friday",
+    "type": "Intervals",
+    "distance_km": 4.0,
+    "target_pace": 4.25,
+    "notes": "Race pace intervals"
+  },
+  {
+    "week": 9,
+    "day": "Sunday",
+    "type": "Race Day",
+    "distance_km": 21.097,
+    "target_pace": 4.97,
+    "notes": "Race target pace: approximately 1:45 finish"
+  },
+  {
+    "week": 10,
+    "day": "Tuesday",
+    "type": "Recovery",
+    "distance_km": 6.0,
+    "target_pace": 5.84,
+    "notes": "Light recovery run"
+  },
+  {
+    "week": 10,
+    "day": "Wednesday",
+    "type": "Easy",
+    "distance_km": 5.0,
+    "target_pace": 5.84,
+    "notes": "Relaxed pace"
+  },
+  {
+    "week": 10,
+    "day": "Friday",
+    "type": "Easy",
+    "distance_km": 4.0,
+    "target_pace": 5.84,
+    "notes": "Short and easy"
+  },
+  {
+    "week": 10,
+    "day": "Sunday",
+    "type": "Rest",
+    "distance_km": 0,
+    "target_pace": null,
+    "notes": "Complete rest before race week"
+  },
+  {
+    "week": 11,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 6.0,
+    "target_pace": 5.84,
+    "notes": "Ease into taper"
+  },
+  {
+    "week": 11,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 4.0,
+    "target_pace": 4.95,
+    "notes": "Maintain sharpness"
+  },
+  {
+    "week": 11,
+    "day": "Friday",
+    "type": "Easy",
+    "distance_km": 3.0,
+    "target_pace": 5.84,
+    "notes": "Very easy, freshen up"
+  },
+  {
+    "week": 11,
+    "day": "Sunday",
+    "type": "Rest",
+    "distance_km": 0,
+    "target_pace": null,
+    "notes": "Full rest day"
+  },
+  {
+    "week": 12,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 5.0,
+    "target_pace": 5.84,
+    "notes": "Final easy run"
+  },
+  {
+    "week": 12,
+    "day": "Wednesday",
+    "type": "Light tempo",
+    "distance_km": 3.0,
+    "target_pace": 4.95,
+    "notes": "Stay sharp"
+  },
+  {
+    "week": 12,
+    "day": "Friday",
+    "type": "Rest",
+    "distance_km": 0,
+    "target_pace": null,
+    "notes": "Rest before race"
+  },
+  {
+    "week": 12,
+    "day": "Sunday",
+    "type": "Race Day",
+    "distance_km": 21.097,
+    "target_pace": 4.97,
+    "notes": "Aim for sub-1:45 finish"
+  },
+  {
+    "week": 13,
+    "day": "Tuesday",
+    "type": "Recovery",
+    "distance_km": 5.0,
+    "target_pace": 5.84,
+    "notes": "Easy post-race run"
+  },
+  {
+    "week": 13,
+    "day": "Wednesday",
+    "type": "Easy",
+    "distance_km": 4.0,
+    "target_pace": 5.84,
+    "notes": "Light recovery run"
+  },
+  {
+    "week": 13,
+    "day": "Friday",
+    "type": "Easy",
+    "distance_km": 3.0,
+    "target_pace": 5.84,
+    "notes": "Relaxed pace"
+  },
+  {
+    "week": 13,
+    "day": "Sunday",
+    "type": "Rest",
+    "distance_km": 0,
+    "target_pace": null,
+    "notes": "Complete rest"
+  },
+  {
+    "week": 14,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 4.0,
+    "target_pace": 5.84,
+    "notes": "Keep fresh"
+  },
+  {
+    "week": 14,
+    "day": "Wednesday",
+    "type": "Light tempo",
+    "distance_km": 3.0,
+    "target_pace": 4.95,
+    "notes": "Stay sharp"
+  },
+  {
+    "week": 14,
+    "day": "Friday",
+    "type": "Rest",
+    "distance_km": 0,
+    "target_pace": null,
+    "notes": "Rest before race week"
+  },
+  {
+    "week": 14,
+    "day": "Sunday",
+    "type": "Race Day",
+    "distance_km": 21.097,
+    "target_pace": 4.97,
+    "notes": "Race for goal time"
+  },
+  {
+    "week": 15,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 3.0,
+    "target_pace": 5.84,
+    "notes": "Very easy run"
+  },
+  {
+    "week": 15,
+    "day": "Wednesday",
+    "type": "Light tempo",
+    "distance_km": 2.0,
+    "target_pace": 4.95,
+    "notes": "Maintain freshness"
+  },
+  {
+    "week": 15,
+    "day": "Friday",
+    "type": "Rest",
+    "distance_km": 0,
+    "target_pace": null,
+    "notes": "Rest day before race"
+  },
+  {
+    "week": 15,
+    "day": "Sunday",
+    "type": "Race Day",
+    "distance_km": 21.097,
+    "target_pace": 4.97,
+    "notes": "Aim to meet target goal"
+  },
+  {
+    "week": 16,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 2.0,
+    "target_pace": 5.84,
+    "notes": "Light jog"
+  },
+  {
+    "week": 16,
+    "day": "Wednesday",
+    "type": "Rest",
+    "distance_km": 0,
+    "target_pace": null,
+    "notes": "Full rest"
+  },
+  {
+    "week": 16,
+    "day": "Friday",
+    "type": "Rest",
+    "distance_km": 0,
+    "target_pace": null,
+    "notes": "Race day preparation"
+  },
+  {
+    "week": 16,
+    "day": "Sunday",
+    "type": "Race Day",
+    "distance_km": 21.097,
+    "target_pace": 4.97,
+    "notes": "Finish line: target time 1:45:00"
+  }
+]

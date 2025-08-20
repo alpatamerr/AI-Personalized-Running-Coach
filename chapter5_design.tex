@@ -1,0 +1,1011 @@
+\chapter{System Design and Architecture}
+
+% Framing title and subtitle for academic clarity
+\section*{Design Title and Subtitle}
+\textbf{Title:} AI-Personalized Running Coach — System Architecture, Data Flow, and Plan-Adjustment Design\\
+\textbf{Subtitle:} A Modular, Data-Driven Web Architecture Integrating OpenAI, Strava, and PostgreSQL for Periodized Training
+
+
+\section{Overview}
+
+The AI Personalized Running Coach represents a sophisticated computational system designed to address the complex challenge of creating individualized training regimens for runners of varying abilities and objectives. This system embodies a comprehensive approach to sports science and exercise physiology, leveraging advanced computational techniques to analyze historical performance data, comprehend user-defined objectives, and generate scientifically-informed, personalized 16-week periodized training plans. The architectural foundation of this system is predicated upon the integration of multiple external fitness platforms, the employment of state-of-the-art artificial intelligence methodologies for intelligent plan generation, and the provision of an intuitive, modern web-based interface that facilitates seamless user interaction and engagement.
+
+The primary objective of this system is to bridge the gap between theoretical training principles and practical implementation by providing runners with data-driven, evidence-based training recommendations that are specifically tailored to their current fitness levels, historical performance patterns, and future aspirations. This objective is achieved through the systematic application of several key computational capabilities that work in concert to deliver a comprehensive training solution.
+
+The fundamental premise underlying this system is the recognition that effective training requires a nuanced understanding of individual physiological responses, current fitness capabilities, and specific performance objectives. The system achieves this through the systematic implementation of several interconnected computational capabilities that collectively form a comprehensive training ecosystem.
+
+\begin{itemize}
+    \item \textbf{Goal Setting and Preference Capture}: The system implements sophisticated algorithms for capturing and processing user preferences, including target distance objectives, temporal goals, preferred training day allocations, and weekly volume targets. This capability ensures that training plans are aligned with user-specific constraints and lifestyle considerations.
+    
+    \item \textbf{Comprehensive Data Integration}: The system establishes robust data pipelines for importing running activities from external fitness platforms, particularly Strava, with granular metrics including distance measurements, pace calculations, cadence analysis, and heart rate monitoring. This integration provides the foundation for evidence-based training recommendations.
+    
+    \item \textbf{Artificial Intelligence-Powered Planning}: The system employs advanced natural language processing techniques through OpenAI's language models to generate comprehensive 16-week training plans that incorporate principles of exercise physiology, periodization theory, and individual performance characteristics.
+    
+    \item \textbf{Interactive Plan Visualization}: The system provides sophisticated visualization capabilities that present training plans in an interactive calendar format, enabling users to comprehend complex training schedules through intuitive graphical representations.
+    
+    \item \textbf{Comprehensive Performance Tracking}: The system implements advanced analytics capabilities for monitoring progress through dashboard-based performance metrics and detailed activity summaries that facilitate ongoing assessment and plan adjustment.
+\end{itemize}
+
+The architectural foundation of this system is predicated upon a modern, scalable web application paradigm that employs a React-based Single Page Application (SPA) as the primary user interface, which communicates seamlessly with a Node.js/Express backend API. This backend architecture manages sophisticated data persistence mechanisms through PostgreSQL and establishes robust integrations with external services including Google OAuth for authentication, Strava API for fitness data acquisition, and OpenAI for intelligent plan generation capabilities.
+
+\section{System Architecture Pipeline}
+
+% High-level context diagram
+\subsection*{Context Diagram}
+\begin{figure}[h]
+\centering
+\begin{minipage}{0.95\linewidth}
+\begin{verbatim}
+graph LR
+  user["Runner (User)"]
+  browser["Web App (React/Vite)"]
+  api["API (Node/Express)"]
+  db[("PostgreSQL")]
+  strava["Strava API"]
+  google["Google OAuth"]
+  openai["OpenAI (Plan Generation)"]
+
+  user --> browser
+  browser <--> api
+  api <--> db
+  api <--> strava
+  api <--> google
+  api <--> openai
+\end{verbatim}
+\end{minipage}
+\caption{Context diagram of primary actors and systems.}
+\end{figure}
+
+\subsection*{Container Diagram}
+\begin{figure}[h]
+\centering
+\begin{minipage}{0.95\linewidth}
+\begin{verbatim}
+graph TD
+  subgraph Client
+    SPA["React SPA (Vite)"]
+  end
+
+  subgraph Server
+    Express["Express App"]
+    Controllers["Controllers (plans, goals, strava)"]
+    Auth["Passport (Google/Strava)"]
+  end
+
+  DB[("PostgreSQL")]
+  OpenAI["OpenAI Responses API"]
+  Strava["Strava REST API"]
+  MLService["ML Microservice (FastAPI) — optional"]
+
+  SPA -->|/api| Express
+  Express --> Controllers
+  Controllers --> DB
+  Controllers --> OpenAI
+  Controllers --> Strava
+  Controllers -.-> MLService
+  Express --> Auth
+\end{verbatim}
+\end{minipage}
+\caption{Container view of client, server, database, and external services.}
+\end{figure}
+
+
+The system implements a sophisticated, well-defined end-to-end workflow that systematically transforms user inputs into actionable, scientifically-grounded training plans. This comprehensive pipeline is designed to ensure data consistency, maintain high standards of user experience quality, and guarantee system reliability across all operational scenarios. The pipeline architecture incorporates multiple validation checkpoints, error handling mechanisms, and feedback loops that collectively contribute to the robustness and effectiveness of the overall system.
+
+\subsection{Goal Capture and Persistence}
+
+The systematic process commences with sophisticated user interaction through a meticulously designed multi-step wizard interface that systematically collects comprehensive training preferences and objectives. This interface is engineered to capture the nuanced requirements of individual runners while ensuring data quality and completeness.
+
+\begin{enumerate}
+    \item Users engage with a structured, progressive wizard interface that systematically captures distance targets, temporal goals, preferred training day allocations, and weekly volume objectives through an intuitive, step-by-step process that minimizes cognitive load while maximizing data accuracy.
+    
+    \item The client application implements comprehensive validation algorithms that scrutinize user inputs for consistency, feasibility, and adherence to established training principles, subsequently assembling a structured, normalized payload that conforms to the system's data schema requirements.
+    
+    \item The system executes a secure API call to \texttt{POST /api/goals/save} to persistently store goal information in the database, employing transaction-based operations that ensure data integrity and atomicity of the persistence operation.
+    
+    \item Goal data is systematically stored with comprehensive validation mechanisms and uniqueness constraints that prevent data duplication while maintaining referential integrity across the database schema.
+\end{enumerate}
+
+\subsection{Training Plan Generation}
+
+Following goal persistence, the system initiates the AI-powered plan generation process:
+
+\begin{enumerate}
+    \item The client triggers \texttt{POST /api/plans/generate-ai} with the user identifier
+    \item The server constructs a comprehensive system prompt incorporating:
+    \begin{itemize}
+        \item User profile information from the \texttt{users} table
+        \item Most recent goal specifications from the \texttt{goals} table
+        \item Baseline performance metrics from recent running activities (last 8 runs from \texttt{run\_data})
+        \item Fallback to demonstration data if insufficient user history exists
+    \end{itemize}
+    \item The system calls OpenAI's Responses API to generate a structured 16-week training plan
+    \item Generated plans are persisted as a header record in \texttt{training\_plans} and detailed entries in \texttt{plan\_details}
+    \item The response returns success status and plan data to the client application
+\end{enumerate}
+
+\subsection{Plan Visualization and User Interface}
+
+The generated training plan is presented to users through an interactive calendar interface:
+
+\begin{enumerate}
+    \item The client fetches plan data via \texttt{GET /api/plans/get-plan?userId=...}
+    \item Plan details are rendered in a weekly calendar format showing daily workouts
+    \item Users can navigate between weeks and view detailed workout information
+    \item The interface provides context for each training session including type, distance, target pace, and coaching notes
+\end{enumerate}
+
+\subsection{Data Integration and Analytics}
+
+The system maintains ongoing data integration and analytics capabilities:
+
+\begin{enumerate}
+    \item Strava activities are imported through \texttt{POST /api/strava/sync-strava}
+    \item Running data is normalized and stored in the \texttt{run\_data} table
+    \item Dashboard widgets consume aggregated statistics via \texttt{GET /api/plans/dashboard-stats}
+    \item Recent activity summaries are provided through \texttt{GET /api/plans/recent-activities}
+\end{enumerate}
+
+\subsection{Authentication and Security}
+
+User authentication is handled through multiple OAuth providers:
+
+\begin{enumerate}
+    \item Google OAuth integration for primary user authentication
+    \item Strava OAuth for fitness data access and synchronization
+    \item Session-based authentication using \texttt{express-session}
+    \item Secure token management for external API integrations
+\end{enumerate}
+
+\section{Technology Stack}
+
+The system employs a modern, scalable technology stack designed for performance, maintainability, and user experience.
+
+\subsection{Frontend Technologies}
+
+The client application is built using contemporary web technologies:
+
+\begin{itemize}
+    \item \textbf{React}: Modern JavaScript library for building user interfaces
+    \item \textbf{React Router}: Client-side routing for single-page application navigation
+    \item \textbf{Vite}: Fast build tool and development server
+    \item \textbf{Calendar Components}: Component library for calendar visualization
+    \item \textbf{Date Utilities}: Utility library for date manipulation and formatting
+\end{itemize}
+
+\subsection{Backend Technologies}
+
+The server-side application utilizes robust, production-ready technologies:
+
+\begin{itemize}
+    \item \textbf{Node.js}: JavaScript runtime environment for server-side execution
+    \item \textbf{Express}: Web application framework for API development
+    \item \textbf{Session Management}: Session middleware for user state management
+    \item \textbf{Authentication}: Authentication middleware supporting multiple strategies
+    \item \textbf{CORS}: Cross-origin resource sharing configuration
+    \item \textbf{Environment Management}: Environment variable management
+\end{itemize}
+
+\subsection{Database and Storage}
+
+Data persistence is handled through a relational database system:
+
+\begin{itemize}
+    \item \textbf{PostgreSQL}: Primary relational database with ACID compliance
+    \item \textbf{Database Client}: Node.js PostgreSQL client for database connectivity
+    \item \textbf{Schema Definition}: Structured schema definition for database structure
+\end{itemize}
+
+\subsection{Artificial Intelligence and External Services}
+
+The system integrates with advanced AI services and external APIs:
+
+\begin{itemize}
+    \item \textbf{OpenAI}: Language model API for training plan generation
+    \item \textbf{Strava REST API}: Fitness activity data integration
+    \item \textbf{Google OAuth 2.0}: User authentication and authorization
+    \item \textbf{Optional ML Microservice}: Local machine learning capabilities
+\end{itemize}
+
+\subsection{Development and Deployment Tools}
+
+The development environment includes comprehensive tooling:
+
+\begin{itemize}
+    \item \textbf{Code Quality}: Code quality and style enforcement
+    \item \textbf{Development Proxy}: Development-time API proxying
+    \item \textbf{Docker}: Containerization support for deployment
+    \item \textbf{Containerization/Cloud}: Support for various deployment environments
+\end{itemize}
+
+\section{System Components and Subsystems}
+
+The system is decomposed into several well-defined subsystems, each with specific responsibilities and clear interfaces.
+
+\subsection{Client Application Subsystem}
+
+The frontend application provides the user interface and manages client-side state:
+
+\begin{itemize}
+    \item \textbf{Dashboard Page}: Main dashboard displaying user goals, weekly progress, and recent activities with fallback to demonstration data when needed
+    \item \textbf{Training Plan Calendar Page}: Calendar interface hosting the goal wizard, triggering plan generation, and rendering weekly training schedules
+    \item \textbf{Training Plan Wizard}: Multi-step form component for capturing user training preferences and goals
+    \item \textbf{Generate Plan Button}: Interface component for initiating AI-powered plan generation and navigation
+    \item \textbf{Strava Stats}: Component for displaying aggregated fitness metrics with fallback to demonstration user data
+    \item \textbf{Goals API}: API wrapper functions for goal management operations
+    \item \textbf{Development Configuration}: Development configuration including API proxy settings
+\end{itemize}
+
+\subsection{Server Application Subsystem}
+
+The backend application handles business logic, data persistence, and external integrations:
+
+\begin{itemize}
+    \item \textbf{Main Application}: Express application with middleware configuration, CORS settings, session management, and route mounting
+    \item \textbf{Routes}: RESTful API endpoint definitions
+    \begin{itemize}
+        \item \textbf{Auth Routes}: Google and Strava OAuth endpoints with session management
+        \item \textbf{Goal Routes}: Goal CRUD operations (create, read, update, delete)
+        \item \textbf{Plan Routes}: Training plan generation, retrieval, and analytics endpoints
+        \item \textbf{Strava Routes}: Strava data synchronization endpoints
+        \item \textbf{User Routes}: User registration and authentication endpoints
+    \end{itemize}
+    \item \textbf{Controllers}: Business logic implementation
+    \begin{itemize}
+        \item \textbf{Plan Controller}: Training plan generation, baseline analysis, prompt assembly, OpenAI integration, and dashboard analytics
+        \item \textbf{Strava Controller}: Strava API integration, data normalization, and database synchronization
+        \item \textbf{Goal Controller}: Goal management with validation and persistence logic
+        \item \textbf{User Controller}: User authentication with password hashing
+    \end{itemize}
+    \item \textbf{Configuration and Middleware}:
+    \begin{itemize}
+        \item \textbf{Database Configuration}: PostgreSQL connection pool configuration
+        \item \textbf{Auth Configuration}: Passport authentication strategies and session management
+        \item \textbf{Error Handler}: Centralized error handling middleware
+    \end{itemize}
+\end{itemize}
+
+\subsection{Database Subsystem}
+
+The database layer provides structured data persistence:
+
+\begin{itemize}
+    \item \textbf{Core Tables}: users, goals, run\_data, training\_plans, plan\_details, strava\_tokens, training\_records
+    \item \textbf{Indexes}: Performance optimization for frequent query patterns
+    \item \textbf{Constraints}: Data integrity through foreign keys, unique constraints, and check constraints
+\end{itemize}
+
+\subsection{Machine Learning Subsystem}
+
+The ML subsystem provides optional local machine learning capabilities:
+
+\begin{itemize}
+    \item \textbf{Plan Generation Service}: FastAPI service for local training plan generation based on user statistics
+    \item \textbf{Clustering Analysis}: K-means clustering analysis of training records
+    \item \textbf{Data Import Utilities}: Data import utilities for training record analysis
+    \item \textbf{Visualization Tools}: Visualization tools for clustering analysis results
+\end{itemize}
+
+\section{System Architecture Diagrams}
+
+\subsection*{Component Diagram}
+\begin{figure}[h]
+\centering
+\begin{minipage}{0.95\linewidth}
+\begin{verbatim}
+graph LR
+  Wizard["TrainingPlanWizard.jsx"] --> GoalsAPI["goalsAPI.jsx"]
+  Dashboard["DashboardPage.jsx"] --> PlansAPI["/api/plans/*"]
+  Calendar["TrainingPlanCalendarPage.jsx"] --> PlansAPI
+
+  PlansAPI --> PlanCtrl["planController.js"]
+  GoalsAPI --> GoalCtrl["goalController.js"]
+  StravaSync["stravaController.js"] --> RunData[("run_data")]
+
+  PlanCtrl --> Plans[("training_plans, plan_details")]
+  PlanCtrl --> OpenAI["OpenAI"]
+  GoalCtrl --> Goals[("goals")]
+\end{verbatim}
+\end{minipage}
+\caption{Component diagram showing key modules and their interactions.}
+\end{figure}
+
+\subsection*{Deployment Diagram}
+\begin{figure}[h]
+\centering
+\begin{minipage}{0.95\linewidth}
+\begin{verbatim}
+graph LR
+  DevBrowser["Dev Browser: localhost:5173"]
+  Vite["Vite Dev Server"]
+  Node["Node/Express (localhost:5000)"]
+  PG[("PostgreSQL")]
+  OpenAI["OpenAI Cloud"]
+  Strava["Strava Cloud"]
+
+  DevBrowser --> Vite -->|/api proxy| Node
+  Node <--> PG
+  Node <--> OpenAI
+  Node <--> Strava
+\end{verbatim}
+\end{minipage}
+\caption{Deployment diagram showing development environment setup.}
+\end{figure}
+
+\section{Database Design}
+
+\subsection*{Entity–Relationship (ER) Diagram}
+\begin{figure}[h]
+\centering
+\begin{minipage}{0.95\linewidth}
+\begin{verbatim}
+erDiagram
+  USERS ||--o{ GOALS : has
+  USERS ||--o{ TRAINING_PLANS : has
+  TRAINING_PLANS ||--o{ PLAN_DETAILS : has
+  USERS ||--o{ RUN_DATA : records
+  USERS ||--o{ TRAINING_RECORDS : logs
+  STRAVA_TOKENS }o..o{ USERS : "no enforced FK"
+
+  USERS {
+    BIGINT id PK
+    VARCHAR username
+    VARCHAR email UNIQUE
+    VARCHAR password
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+    BOOLEAN is_strava_user
+  }
+
+  GOALS {
+    BIGINT id PK
+    BIGINT user_id FK
+    VARCHAR distance
+    VARCHAR target_time
+    VARCHAR days
+    INTEGER weekly_km
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  TRAINING_PLANS {
+    BIGINT id PK
+    BIGINT user_id FK
+    VARCHAR goal
+    DATE start_date
+    DATE end_date
+    TIMESTAMP created_at
+  }
+
+  PLAN_DETAILS {
+    BIGINT id PK
+    BIGINT training_plan_id FK
+    INTEGER week
+    VARCHAR day
+    VARCHAR type
+    NUMERIC distance
+    TEXT target_pace
+    TEXT note
+    TEXT explanation
+    TIMESTAMP created_at
+  }
+
+  RUN_DATA {
+    BIGINT id PK
+    BIGINT user_id FK
+    NUMERIC distance_km
+    NUMERIC duration_minutes
+    DOUBLE pace
+    DOUBLE average_cadence
+    BOOLEAN has_heartrate
+    DOUBLE average_heartrate
+    DOUBLE max_heartrate
+    DATE run_date
+    BIGINT activity_id UNIQUE
+    TEXT sport_type
+    TIMESTAMP created_at
+  }
+
+  TRAINING_RECORDS {
+    BIGINT id PK
+    BIGINT user_id FK
+    VARCHAR record_type
+    NUMERIC distance_km
+    NUMERIC duration_minutes
+    NUMERIC pace
+    INTEGER average_cadence
+    INTEGER average_heartrate
+    DATE run_date
+    VARCHAR race_name
+    VARCHAR race_location
+    DATE plan_week_start_date
+    VARCHAR day_of_week
+    DATE race_date
+    TIMESTAMP created_at
+  }
+
+  STRAVA_TOKENS {
+    BIGINT athlete_id PK
+    VARCHAR access_token
+    VARCHAR refresh_token
+    INTEGER expires_at
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+\end{verbatim}
+\end{minipage}
+\caption{Entity-Relationship diagram showing database schema and relationships.}
+\end{figure}
+
+
+The database schema is designed to support the system's data requirements while maintaining performance, integrity, and scalability.
+
+\subsection{Core Tables and Relationships}
+
+The database consists of seven primary tables with well-defined relationships:
+
+\begin{itemize}
+    \item \textbf{users}: Central user entity with authentication and profile information
+    \item \textbf{goals}: User training objectives and preferences
+    \item \textbf{training\_plans}: Generated training plan metadata
+    \item \textbf{plan\_details}: Individual workout sessions within training plans
+    \item \textbf{run\_data}: Imported running activities from Strava
+    \item \textbf{training\_records}: Historical training data for analysis
+    \item \textbf{strava\_tokens}: OAuth token management for Strava integration
+\end{itemize}
+
+\subsection{Data Model Details}
+
+\subsubsection{Users Table}
+The users table serves as the central entity for user management:
+\begin{itemize}
+    \item \texttt{id} (BIGINT, Primary Key): Unique user identifier
+    \item \texttt{username} (VARCHAR): User display name
+    \item \texttt{email} (VARCHAR, Unique): User email address for authentication
+    \item \texttt{password} (VARCHAR): Bcrypt-hashed password
+    \item \texttt{created\_at}, \texttt{updated\_at} (TIMESTAMP): Audit timestamps
+    \item \texttt{is\_strava\_user} (BOOLEAN): Flag for Strava-integrated accounts
+\end{itemize}
+
+\subsubsection{Goals Table}
+The goals table captures user training objectives:
+\begin{itemize}
+    \item \texttt{id} (BIGINT, Primary Key): Unique goal identifier
+    \item \texttt{user\_id} (BIGINT, Foreign Key): Reference to users table
+    \item \texttt{distance} (VARCHAR): Target race distance
+    \item \texttt{target\_time} (VARCHAR): Goal completion time
+    \item \texttt{days} (VARCHAR): Preferred training days (CSV format)
+    \item \texttt{weekly\_km} (INTEGER): Target weekly distance
+    \item \texttt{created\_at}, \texttt{updated\_at} (TIMESTAMP): Audit timestamps
+\end{itemize}
+
+\subsubsection{Training Plans and Details}
+The training plan system uses a header-detail pattern:
+\begin{itemize}
+    \item \texttt{training\_plans}: Plan metadata (user, goal, date range)
+    \item \texttt{plan\_details}: Individual workouts (week, day, type, distance, pace, notes)
+\end{itemize}
+
+\subsubsection{Run Data Table}
+The run\_data table stores imported Strava activities:
+\begin{itemize}
+    \item \texttt{id} (BIGINT, Primary Key): Unique activity identifier
+    \item \texttt{user\_id} (BIGINT, Foreign Key): Reference to users table
+    \item \texttt{distance\_km} (NUMERIC): Activity distance in kilometers
+    \item \texttt{duration\_minutes} (NUMERIC): Activity duration
+    \item \texttt{pace} (DOUBLE PRECISION): Average pace in minutes per kilometer
+    \item \texttt{average\_cadence} (DOUBLE PRECISION): Average running cadence
+    \item \texttt{has\_heartrate} (BOOLEAN): Heart rate data availability flag
+    \item \texttt{average\_heartrate}, \texttt{max\_heartrate} (DOUBLE PRECISION): Heart rate metrics
+    \item \texttt{run\_date} (DATE): Activity date
+    \item \texttt{activity\_id} (BIGINT, Unique): Strava activity identifier
+    \item \texttt{sport\_type} (TEXT): Activity type classification
+\end{itemize}
+
+\subsection{Indexes and Performance}
+
+The database includes strategic indexes to optimize query performance:
+
+\begin{itemize}
+    \item \textbf{User-related indexes}: \texttt{idx\_users\_email}, \texttt{idx\_goals\_user\_id}
+    \item \textbf{Plan-related indexes}: \texttt{idx\_training\_plans\_user\_id}, \texttt{idx\_plan\_details\_training\_plan\_id}
+    \item \textbf{Activity indexes}: \texttt{idx\_run\_data\_user\_id}, \texttt{unique\_user\_run\_date}
+    \item \textbf{Training record indexes}: \texttt{idx\_training\_records\_user\_id}, \texttt{idx\_training\_records\_type}
+\end{itemize}
+
+\subsection{Data Integrity and Constraints}
+
+The schema enforces data integrity through various constraints:
+
+\begin{itemize}
+    \item \textbf{Foreign Key Constraints}: Ensure referential integrity between tables
+    \item \textbf{Unique Constraints}: Prevent duplicate entries (e.g., user goals, run data)
+    \item \textbf{Check Constraints}: Validate data ranges and formats
+    \item \textbf{NOT NULL Constraints}: Ensure required fields are populated
+\end{itemize}
+
+\section{API Design and Interface Specifications}
+
+The system exposes a comprehensive RESTful API that enables client-server communication and external integrations.
+
+\subsection{Goals Management API}
+
+The goals API manages user training objectives:
+
+\begin{itemize}
+    \item \texttt{POST /api/goals/save}: Create or update user goals with validation
+    \item \texttt{GET /api/goals/:userId}: Retrieve all goals for a specific user
+    \item \texttt{DELETE /api/goals/:userId/:distance}: Remove specific goal entries
+\end{itemize}
+
+\subsection{Training Plan API}
+
+The training plan API handles plan generation and retrieval:
+
+\begin{itemize}
+    \item \texttt{POST /api/plans/generate-ai}: Generate AI-powered training plans
+    \item \texttt{GET /api/plans/get-plan}: Retrieve the latest training plan for a user
+    \item \texttt{GET /api/plans/dashboard-stats}: Get aggregated performance statistics
+    \item \texttt{GET /api/plans/recent-activities}: Retrieve recent running activities
+    \item \texttt{GET /api/plans/strava-user-id}: Get preferred Strava user identifier
+\end{itemize}
+
+\subsection{User Management API}
+
+The user API handles authentication and user management:
+
+\begin{itemize}
+    \item \texttt{POST /api/users/register}: User registration with password hashing
+    \item \texttt{POST /api/users/login}: Email/password authentication
+\end{itemize}
+
+\subsection{Strava Integration API}
+
+The Strava API manages external fitness data:
+
+\begin{itemize}
+    \item \texttt{POST /api/strava/sync-strava}: Import Strava activities for configured users
+\end{itemize}
+
+\subsection{Authentication API}
+
+The authentication API manages OAuth flows:
+
+\begin{itemize}
+    \item \texttt{GET /api/auth/google}: Initiate Google OAuth flow
+    \item \texttt{GET /api/auth/google/callback}: Handle Google OAuth callback
+    \item \texttt{GET /api/auth/strava}: Initiate Strava OAuth flow
+    \item \texttt{GET /api/auth/strava/callback}: Handle Strava OAuth callback
+    \item \texttt{GET /api/auth/me}: Get current user session information
+    \item \texttt{GET /api/auth/check}: Verify authentication status
+\end{itemize}
+
+\section{Goal Wizard Design}
+
+The Training Plan Wizard provides a structured interface for capturing user training preferences and objectives.
+
+\subsection{Wizard Flow and Steps}
+
+The wizard implements a five-step process to collect comprehensive training information:
+
+\begin{enumerate}
+    \item \textbf{Category Selection}: Users choose between "race" or "distance" training objectives
+    \item \textbf{Distance Selection}: Users select from predefined distance options (5K, 10K, Half Marathon, Full Marathon, Ultra Marathon)
+    \item \textbf{Target Time Input}: Users specify goal completion time using HH:MM:SS or MM:SS format
+    \item \textbf{Training Days Selection}: Users select preferred training days from the full week
+    \item \textbf{Weekly Distance Input}: Users specify target weekly training volume in kilometers
+    \item \textbf{Confirmation and Submission}: Users review and submit their training preferences
+\end{enumerate}
+
+\subsection{Data Validation and Constraints}
+
+The wizard implements comprehensive validation to ensure data quality:
+
+\begin{itemize}
+    \item \textbf{Target Time Validation}: Must match time format patterns
+    \item \textbf{Training Days Validation}: Must select at least one training day
+    \item \textbf{Weekly Distance Validation}: Must be a positive number greater than or equal to 1
+    \item \textbf{Real-time Validation}: Next button is disabled until validation criteria are met
+\end{itemize}
+
+\subsection{Data Submission and Processing}
+
+Upon completion, the wizard assembles and submits user data:
+
+\begin{itemize}
+    \item \textbf{Payload Assembly}: Creates structured JSON with all collected information
+    \item \textbf{API Integration}: Calls the goals API endpoint with credentials
+    \item \textbf{Plan Generation Trigger}: Initiates training plan generation upon successful save
+    \item \textbf{Error Handling}: Displays inline errors and disables submission during processing
+\end{itemize}
+
+\subsection{State Management and User Experience}
+
+The wizard provides a smooth user experience through careful state management:
+
+\begin{itemize}
+    \item \textbf{Step Navigation}: Users can progress through steps with validation
+    \item \textbf{Data Persistence}: Form state is maintained during navigation
+    \item \textbf{Loading States}: Visual feedback during API calls
+    \item \textbf{Error Recovery}: Clear error messages and recovery options
+\end{itemize}
+
+\section{AI-Powered Plan Generation Design}
+
+\subsection*{Sequence Diagram (Plan Generation)}
+\begin{figure}[h]
+\centering
+\begin{minipage}{0.95\linewidth}
+\begin{verbatim}
+sequenceDiagram
+  autonumber
+  participant U as User
+  participant C as React Client
+  participant S as Express API
+  participant DB as PostgreSQL
+  participant AI as OpenAI
+
+  U->>C: Complete goal wizard
+  C->>S: POST /api/goals/save
+  S->>DB: Upsert goal
+  DB-->>S: OK
+  C->>S: POST /api/plans/generate-ai { userId }
+  S->>DB: Load user, latest goal, baseline runs
+  S->>AI: Prompt with profile + constraints
+  AI-->>S: JSON 16‑week plan
+  S->>DB: Insert training_plans + plan_details
+  DB-->>S: OK
+  S-->>C: { success, plan }
+  C->>S: GET /api/plans/get-plan
+  S-->>C: { plan details }
+  C->>U: Render calendar
+\end{verbatim}
+\end{minipage}
+\caption{Sequence diagram of plan generation lifecycle.}
+\end{figure}
+
+
+The system employs OpenAI's language models to generate personalized training plans based on user preferences and historical data.
+
+\subsection{Prompt Engineering Strategy}
+
+The system uses carefully crafted prompts to ensure consistent, high-quality plan generation:
+
+\begin{itemize}
+    \item \textbf{System Prompt}: Instructs the AI to act as an expert running coach
+    \item \textbf{Output Format}: Specifies JSON-only response with structured workout data
+    \item \textbf{Training Principles}: Embeds coaching best practices and safety guidelines
+    \item \textbf{User Context}: Incorporates user profile, goals, and baseline performance
+\end{itemize}
+
+\subsection{Input Data Processing}
+
+The system processes multiple data sources to inform plan generation:
+
+\begin{itemize}
+    \item \textbf{User Profile}: Username and account information
+    \item \textbf{Goal Specifications}: Target distance, time, and training preferences
+    \item \textbf{Baseline Performance}: Average pace from recent running activities
+    \item \textbf{Training Constraints}: Preferred training days and weekly volume targets
+\end{itemize}
+
+\subsection{Model Integration and Response Handling}
+
+The system integrates with OpenAI's API for plan generation:
+
+\begin{itemize}
+    \item \textbf{API Call}: Uses OpenAI Responses API with GPT-4.1-nano model
+    \item \textbf{Response Processing}: Parses JSON response and validates structure
+    \item \textbf{Error Handling}: Graceful degradation for API failures
+    \item \textbf{Data Persistence}: Stores generated plans in database
+\end{itemize}
+
+\subsection{Plan Structure and Content}
+
+Generated plans follow a structured format with comprehensive workout information:
+
+\begin{itemize}
+    \item \textbf{Weekly Organization}: 16-week progressive training structure
+    \item \textbf{Daily Workouts}: Individual training sessions with type, distance, and pace
+    \item \textbf{Coaching Notes}: Explanatory text for workout purpose and execution
+    \item \textbf{Progressive Loading}: Gradual increase in training volume and intensity
+\end{itemize}
+
+\section{Machine Learning and Clustering Design}
+
+\subsection*{Sequence Diagram (Week-1 Re-Generation Loop)}
+\begin{figure}[h]
+\centering
+\begin{minipage}{0.95\linewidth}
+\begin{verbatim}
+sequenceDiagram
+  participant U as User
+  participant C as Client
+  participant S as API
+  participant DB as DB
+  U->>C: Log week-1 runs in calendar
+  C->>S: Save runs (run_data)
+  S->>DB: INSERT run_data
+  C->>S: Re-evaluate plan
+  S->>DB: Fetch recent runs
+  S->>S: Compute cluster assignment
+  S->>S: Adjust future weeks (rules) OR re-prompt AI
+  S->>DB: UPDATE future plan_details
+  S-->>C: Updated plan
+\end{verbatim}
+\end{minipage}
+\caption{Planned week-1 clustering-based re-generation loop.}
+\end{figure}
+
+
+The system incorporates machine learning techniques to enhance personalization and provide data-driven insights.
+
+\subsection{K-means Clustering Implementation}
+
+The system uses K-means clustering to categorize running activities and personalize training recommendations:
+
+\begin{itemize}
+    \item \textbf{Clustering Features}: Distance, pace, heart rate, and cadence metrics
+    \item \textbf{Optimal Clusters}: 10 clusters determined through elbow method analysis
+    \item \textbf{Cluster Profiles}: Detailed characteristics for each cluster type
+    \item \textbf{Personalization Application}: Use cluster assignments to adjust training plans
+\end{itemize}
+
+\subsection{Cluster Analysis and Interpretation}
+
+Each cluster represents a distinct running profile with specific characteristics:
+
+\begin{itemize}
+    \item \textbf{Cluster 0}: Competitive marathon runners (4.5-6.1 min/km pace)
+    \item \textbf{Cluster 1}: Short to medium distance specialists (5.0-7.5 min/km pace)
+    \item \textbf{Cluster 2}: Ultra-distance runners (11-12.5 min/km pace)
+    \item \textbf{Cluster 3}: Comfortable long-distance runners (7-8.5 min/km pace)
+    \item \textbf{Cluster 4}: Recreational runners (9-12 min/km pace)
+    \item \textbf{Cluster 5}: Half-marathon specialists (4.4-9.1 min/km pace)
+    \item \textbf{Cluster 6}: Mid-pack marathoners (5.5-7.0 min/km pace)
+    \item \textbf{Cluster 7}: Speed-focused runners (3-8 min/km pace)
+    \item \textbf{Cluster 8}: Trail and ultra runners (8-10 min/km pace)
+    \item \textbf{Cluster 9}: Power-hiking and endurance athletes (13-15 min/km pace)
+\end{itemize}
+
+\subsection{Clustering Application in Training Plans}
+
+The clustering system enhances training plan personalization:
+
+\begin{itemize}
+    \item \textbf{User Classification}: Assign users to appropriate clusters based on recent activity
+    \item \textbf{Plan Adjustment}: Modify training plans based on cluster characteristics
+    \item \textbf{Pace Recommendations}: Adjust target paces based on cluster profiles
+    \item \textbf{Volume Optimization}: Scale training volume according to cluster capabilities
+\end{itemize}
+
+\section{Security and Authentication Design}
+
+The system implements comprehensive security measures to protect user data and ensure secure access.
+
+\subsection{Authentication Mechanisms}
+
+The system supports multiple authentication methods:
+
+\begin{itemize}
+    \item \textbf{Google OAuth}: Primary authentication for general users
+    \item \textbf{Strava OAuth}: Specialized authentication for fitness data access
+    \item \textbf{Session Management}: Server-side session handling with secure cookies
+    \item \textbf{Password Security}: Bcrypt hashing for local user accounts
+\end{itemize}
+
+\subsection{Authorization and Access Control}
+
+The system implements proper authorization controls:
+
+\begin{itemize}
+    \item \textbf{User Ownership}: Ensures users can only access their own data
+    \item \textbf{API Protection}: Secures all endpoints with authentication requirements
+    \item \textbf{Data Isolation}: Prevents cross-user data access
+    \item \textbf{Token Management}: Secure handling of OAuth tokens
+\end{itemize}
+
+\subsection{Security Best Practices}
+
+The system follows industry security standards:
+
+\begin{itemize}
+    \item \textbf{Environment Variables}: Secure configuration management
+    \item \textbf{HTTPS Enforcement}: Transport layer security in production
+    \item \textbf{CORS Configuration}: Controlled cross-origin resource sharing
+    \item \textbf{Input Validation}: Comprehensive data validation and sanitization
+\end{itemize}
+
+\section{Performance and Scalability Considerations}
+
+The system is designed with performance and scalability in mind to handle growing user bases and data volumes.
+
+\subsection{Database Performance Optimization}
+
+The database design includes performance optimizations:
+
+\begin{itemize}
+    \item \textbf{Strategic Indexing}: Indexes on frequently queried columns
+    \item \textbf{Query Optimization}: Efficient SQL queries with proper joins
+    \item \textbf{Connection Pooling}: Optimized database connection management
+    \item \textbf{Data Archiving}: Strategy for managing historical data
+\end{itemize}
+
+\subsection{API Performance}
+
+The API layer implements performance best practices:
+
+\begin{itemize}
+    \item \textbf{Response Caching}: Cache frequently accessed data
+    \item \textbf{Request Optimization}: Minimize API response times
+    \item \textbf{Error Handling}: Graceful degradation under load
+    \item \textbf{Monitoring}: Performance metrics and alerting
+\end{itemize}
+
+\subsection{Scalability Architecture}
+
+The system supports horizontal and vertical scaling:
+
+\begin{itemize}
+    \item \textbf{Stateless Design}: API servers can be scaled horizontally
+    \item \textbf{Load Balancing}: Support for multiple server instances
+    \item \textbf{Database Scaling}: Read replicas and connection pooling
+    \item \textbf{External Service Integration}: Efficient third-party API usage
+\end{itemize}
+
+\section{Deployment and DevOps Considerations}
+
+The system includes comprehensive deployment and operational support.
+
+\subsection{Environment Configuration}
+
+The system supports multiple deployment environments:
+
+\begin{itemize}
+    \item \textbf{Development}: Local development with hot reloading
+    \item \textbf{Testing}: Automated testing environment
+    \item \textbf{Staging}: Pre-production validation environment
+    \item \textbf{Production}: Live system with monitoring and alerting
+\end{itemize}
+
+\subsection{Containerization and Orchestration}
+
+The system supports modern deployment practices:
+
+\begin{itemize}
+    \item \textbf{Docker Support}: Containerized application deployment
+    \item \textbf{Environment Variables}: Configuration management
+    \item \textbf{Health Checks}: Application health monitoring
+    \item \textbf{Logging}: Comprehensive logging and monitoring
+\end{itemize}
+
+\subsection{Continuous Integration and Deployment}
+
+The system includes CI/CD pipeline support:
+
+\begin{itemize}
+    \item \textbf{Automated Testing}: Unit and integration test automation
+    \item \textbf{Code Quality}: Linting and style enforcement
+    \item \textbf{Build Automation}: Automated build and deployment processes
+    \item \textbf{Version Control}: Git-based version management
+\end{itemize}
+
+\section{Reader's Guide to Core Concepts}
+
+This section introduces essential terminology and system ideas in plain, precise language so readers without prior familiarity can follow subsequent technical details.
+
+\begin{description}
+  \item[Goal] The runner's target (e.g., 10K in 50:00) along with preferences such as training days and weekly volume. Goals are intentions, not the day-by-day plan.
+  \item[Plan] The 16-week, day-by-day training schedule generated by the system (workout type, distance, pace, notes). Plans are stored as a header (\texttt{training\_plans}) and detailed rows (\texttt{plan\_details}).
+  \item[Baseline] A statistical summary of recent running (e.g., average pace over last 8 activities) derived from \texttt{run\_data}; used to calibrate the plan.
+  \item[Clustering] A method (K-means) to group runs by similarity (distance, pace, heart rate, cadence). Post-week-1, a cluster label helps adjust the plan conservatively.
+  \item[Prompt] A carefully crafted instruction set passed to OpenAI that specifies context, constraints, and the JSON-only output format expected from the model.
+\end{description}
+
+\section{End-to-End User Journeys}
+
+\subsection*{First-Time User (Cold Start)}
+\begin{enumerate}
+  \item The user completes the goal wizard (distance, target time, training days, weekly km).
+  \item The system persists the goal (\texttt{goals}) and requests an AI-generated plan.
+  \item The AI returns structured JSON; the system validates and stores it (\texttt{training\_plans}, \texttt{plan\_details}).
+  \item The calendar renders the plan; the dashboard shows baseline metrics (or demo data if needed).
+\end{enumerate}
+
+\subsection*{Returning User (Existing Goal and Plan)}
+\begin{enumerate}
+  \item The user authenticates; the client fetches the latest \texttt{plan\_details} for display.
+  \item The dashboard refreshes aggregates from \texttt{run\_data}; the user may set a new goal at any time.
+\end{enumerate}
+
+\subsection*{Week-1 Recalibration (Planned)}
+\begin{enumerate}
+  \item The user logs week-1 runs; the system records them in \texttt{run\_data}.
+  \item The backend computes a cluster label from recent runs and compares adherence to the plan.
+  \item The system applies conservative adjustments (pace/volume caps) or re-prompts the AI with constraints; only future weeks change.
+\end{enumerate}
+
+\section{Data Dictionary: Wizard Inputs to Database}
+
+\subsection*{Wizard \textrightarrow{} Backend Payload}
+\begin{verbatim}
+{
+  "userId": "<uuid|numeric>",
+  "distance": "5K|10K|Half Marathon|Full Marathon|Ultra Marathon",
+  "targetTime": "HH:MM:SS|MM:SS",
+  "days": ["Monday".."Sunday"],
+  "weeklyKm": <integer|null>
+}
+\end{verbatim}
+
+\subsection*{Backend \textrightarrow{} Database Mapping}
+\begin{itemize}
+  \item \texttt{goals.user\_id} \(\leftarrow\) \texttt{userId}
+  \item \texttt{goals.distance} \(\leftarrow\) \texttt{distance}
+  \item \texttt{goals.target\_time} \(\leftarrow\) \texttt{targetTime}
+  \item \texttt{goals.days} \(\leftarrow\) CSV of \texttt{days}
+  \item \texttt{goals.weekly\_km} \(\leftarrow\) parseInt(\texttt{weeklyKm}) or \texttt{NULL}
+\end{itemize}
+
+\subsection*{Plan Storage Semantics}
+\begin{itemize}
+  \item Header: \texttt{training\_plans} contains ownership (user), timeframe (start/end), and a human-readable goal summary.
+  \item Details: \texttt{plan\_details} contains one row per workout (week, day, type, distance, target pace, notes, explanation).
+  \item Rendering: The calendar and dashboards query \texttt{plan\_details} and aggregates from \texttt{run\_data}.
+\end{itemize}
+
+\section{Prompt Contract and Validation}
+
+\subsection*{Contract}
+The system prompt defines roles, constraints (build/deload, \(\leq 10\%\) weekly increases, rest days), and demands a JSON-only response. Each item must include:
+\begin{itemize}
+  \item \texttt{week} (1--16), \texttt{day} (e.g., Monday), \texttt{type} (Easy, Tempo, Intervals, Long, Rest)
+  \item \texttt{distance\_km} (number), \texttt{target\_pace} (min/km)
+  \item optional \texttt{notes}, optional \texttt{explanation}
+\end{itemize}
+
+\subsection*{Validation}
+\begin{itemize}
+  \item Parse the model response as JSON; reject Markdown-wrapped outputs.
+  \item Verify required keys, types, and value ranges; reject invalid weeks/days or negative distances.
+  \item On failure, return a 502 error to the client and preserve the raw text for diagnostics.
+\end{itemize}
+
+\section{Error Handling and Edge Cases}
+\begin{itemize}
+  \item \textbf{Sparse History:} If recent \texttt{run\_data} is insufficient, use conservative defaults (e.g., 6.0 min/km baseline, 40 km weekly).
+  \item \textbf{Auth State:} If sessions expire, UI prompts re-authentication; API denies unauthorized access.
+  \item \textbf{Data Conflicts:} Unique constraints on \texttt{goals} and \texttt{run\_data} prevent duplicates; conflicts trigger user-facing guidance.
+  \item \textbf{Safety Rails:} Hard caps on progression (\(\leq\)10\%), mandatory rest day, pace bounds tuned by cluster.
+\end{itemize}
+
+\section{Security Model Explained}
+\begin{itemize}
+  \item \textbf{Identity:} Google/Strava OAuth backed by server-side sessions; local accounts use bcrypt-hashed passwords.
+  \item \textbf{Authorization:} The system enforces user ownership semantics (planned middleware) so one user cannot read others’ data.
+  \item \textbf{Secrets:} All third-party and database credentials are provided via environment variables; no secrets in source control.
+  \item \textbf{Transport:} HTTPS in production; cookies set to \texttt{Secure} and \texttt{SameSite=Lax/Strict} as appropriate.
+\end{itemize}
+
+\section{Assumptions and Non-Goals}
+\begin{itemize}
+  \item The system is not a medical device and does not provide medical advice.
+  \item Training recommendations follow general coaching guidelines; individual response variability is expected.
+  \item Real-time heart-rate adaptive pacing during a workout is out of scope; the system adjusts week-to-week.
+\end{itemize}
+
+\section{Future Enhancements and Extensibility}
+
+The system architecture supports future enhancements and feature additions.
+
+\subsection{Planned Machine Learning Integration}
+
+The system includes hooks for advanced ML capabilities:
+
+\begin{itemize}
+    \item \textbf{Real-time Clustering}: Dynamic user classification based on recent activity
+    \item \textbf{Predictive Analytics}: Performance prediction and goal achievement forecasting
+    \item \textbf{Personalized Recommendations}: AI-driven training suggestions
+    \item \textbf{Adaptive Plans}: Plans that adjust based on user progress and feedback
+\end{itemize}
+

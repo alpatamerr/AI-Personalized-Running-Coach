@@ -1,0 +1,1 @@
+k=4, inertia=41720221.60004805, time=0.16 seconds
