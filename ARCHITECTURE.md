@@ -148,7 +148,7 @@ erDiagram
         VARCHAR password
         TIMESTAMP created_at
         TIMESTAMP updated_at
-        BOOLEAN isStravaUser
+        BOOLEAN is_strava_user
     }
 
     GOALS {
