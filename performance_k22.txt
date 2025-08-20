@@ -1,0 +1,1 @@
+k=22, inertia=3828954.453678026, time=0.50 seconds

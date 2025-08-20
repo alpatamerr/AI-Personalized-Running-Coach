@@ -1,0 +1,1 @@
+k=7, inertia=16240159.821910366, time=0.31 seconds

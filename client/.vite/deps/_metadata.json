@@ -1,0 +1,58 @@
+{
+  "hash": "9f1f9a3a",
+  "configHash": "1a6423ad",
+  "lockfileHash": "1c619704",
+  "browserHash": "9ef54026",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "49d2f060",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "0e7a1c9d",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "c0db965e",
+      "needsInterop": false
+    },
+    "react-big-calendar": {
+      "src": "../../node_modules/react-big-calendar/dist/react-big-calendar.esm.js",
+      "file": "react-big-calendar.js",
+      "fileHash": "96601388",
+      "needsInterop": false
+    },
+    "date-fns": {
+      "src": "../../node_modules/date-fns/index.js",
+      "file": "date-fns.js",
+      "fileHash": "54c44e4b",
+      "needsInterop": false
+    },
+    "date-fns/locale/en-US": {
+      "src": "../../node_modules/date-fns/locale/en-US.js",
+      "file": "date-fns_locale_en-US.js",
+      "fileHash": "3b8cb6b4",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-DMYRXTEI": {
+      "file": "chunk-DMYRXTEI.js"
+    },
+    "chunk-UP6LQVYV": {
+      "file": "chunk-UP6LQVYV.js"
+    },
+    "chunk-TWJRYSII": {
+      "file": "chunk-TWJRYSII.js"
+    },
+    "chunk-DC5AMYBS": {
+      "file": "chunk-DC5AMYBS.js"
+    }
+  }
+}

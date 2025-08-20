@@ -190,11 +190,9 @@ const UserGoals = ({ userId }) => {
   return (
     <div className="user-goals">
       <div className="goals-grid">
-        <div className="goal-card add-goal-card">
+        {/* <div className="goal-card add-goal-card">
           {!adding ? (
-            <button className="add-goal-btn" onClick={handleAddGoal} disabled={availableDistances.length === 0}>
-              + Add Goal
-            </button>
+
           ) : (
             <form onSubmit={e => { e.preventDefault(); handleAddSave(); }} className="edit-goal-form">
               <select
@@ -221,7 +219,7 @@ const UserGoals = ({ userId }) => {
               <button type="button" className="cancel-goal-btn" onClick={handleAddCancel} disabled={addSaving}>Cancel</button>
             </form>
           )}
-        </div>
+        </div> */}
         {goals.map((goal) => (
           <div key={goal.distance} className="goal-card">
             <h3>{editingGoal === goal.distance ? (

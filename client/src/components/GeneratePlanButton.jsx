@@ -26,17 +26,18 @@ const GeneratePlanButton = ({ userId }) => {
       setError("Could not generate training plan. Please try again.");
     } finally {
       setLoading(false);
+      window.location.reload();
     }
   };
 
   return (
     <section className="generate-plan-section">
-      <h2>AI Training Plan</h2>
       <button
         className="generate-plan-btn"
         onClick={handleGenerate}
         disabled={loading || !userId}
-      >
+        >
+        <h2>AI Training Plan</h2>
         {loading ? "Generating..." : "Generate Training Plan"}
       </button>
       {error && <div className="error-message">{error}</div>}

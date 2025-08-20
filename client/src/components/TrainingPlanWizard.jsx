@@ -1,16 +1,696 @@
-import React, { useState } from "react";
-import { getUserGoals, saveGoal } from '../api/goalsAPI.jsx';
+// import React, { useState } from "react";
+// import { getUserGoals, saveGoal } from '../api/goalsAPI.jsx';
 
-// Step 0: Category
+// // Step 0: Category
+// const categories = [
+//   { key: "race", label: "Race", desc: "Personalized plan for your next big event.", icon: "🏁" },
+//   { key: "distance", label: "Run a specific distance", desc: "Pick any distance, from 5k to ultramarathon.", icon: "🏔️" }
+// ];
+// const distances = ["5K", "10K", "Half Marathon", "Full Marathon", "Ultra Marathon"];
+// const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+// export default function TrainingPlanWizard({ onComplete }) {
+//   const [step, setStep] = useState(0);
+//   const [data, setData] = useState({
+//     category: "",
+//     distance: "",
+//     targetTime: "",
+//     days: [],
+//     weeklyKm: "",
+//   });
+
+//   // Step 0: Category selection
+//   if (step === 0) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Choose Your Adventure</h2>
+//         <p>What inspires you most right now?</p>
+//         {categories.map(opt => (
+//           <div key={opt.key} className="wizard-option" onClick={() => { setData(d => ({ ...d, category: opt.key })); setStep(1); }}>
+//             <span style={{ fontSize: 32 }}>{opt.icon}</span>
+//             <div>
+//               <div style={{ color: "#ff7c4f", fontWeight: 600 }}>{opt.label}</div>
+//               <div style={{ color: "#888" }}>{opt.desc}</div>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     );
+//   }
+
+//   // Step 1: Distance
+//   if (step === 1) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Select Your Distance</h2>
+//         <div className="wizard-options-list">
+//           {distances.map(d => (
+//             <button key={d} onClick={() => { setData(dt => ({ ...dt, distance: d })); setStep(2); }}>
+//               {d}
+//             </button>
+//           ))}
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   // Step 2: Target Time (reuse your GoalSurvey logic)
+//   if (step === 2) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Your Target Time</h2>
+//         <p>What is your goal time for this distance? (HH:MM:SS or MM:SS)</p>
+//         <input
+//           type="text"
+//           value={data.targetTime}
+//           placeholder="e.g. 00:45:00"
+//           onChange={e => setData(dt => ({ ...dt, targetTime: e.target.value }))}
+//         />
+//         <small style={{ color: "#888" }}>Format: HH:MM:SS or MM:SS</small>
+//         <br />
+//         <button
+//           disabled={!/^(\d{2}:)?\d{2}:\d{2}$/.test(data.targetTime)}
+//           onClick={() => setStep(3)}
+//         >Next</button>
+//       </div>
+//     );
+//   }
+
+//   // Step 3: Preferred Days
+//   if (step === 3) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Which days do you want to run?</h2>
+//         <div className="days-select">
+//           {daysOfWeek.map(day => (
+//             <label key={day} style={{ marginRight: 16 }}>
+//               <input
+//                 type="checkbox"
+//                 checked={data.days.includes(day)}
+//                 onChange={e => {
+//                   setData(dt => ({
+//                     ...dt,
+//                     days: e.target.checked
+//                       ? [...dt.days, day]
+//                       : dt.days.filter(d => d !== day)
+//                   }));
+//                 }}
+//               />
+//               {day}
+//             </label>
+//           ))}
+//         </div>
+//         <button disabled={data.days.length === 0} onClick={() => setStep(4)}>Next</button>
+//       </div>
+//     );
+//   }
+
+//   // Step 4: Weekly Mileage
+//   if (step === 4) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Weekly Distance</h2>
+//         <p>How many km do you want to run per week?</p>
+//         <input
+//           type="number"
+//           min="1"
+//           value={data.weeklyKm}
+//           placeholder="e.g. 40"
+//           onChange={e => setData(dt => ({ ...dt, weeklyKm: e.target.value }))}
+//         />
+//         <button
+//           disabled={!data.weeklyKm}
+//           onClick={() => setStep(5)}
+//         >Next</button>
+//       </div>
+//     );
+//   }
+
+//   // Step 5: Confirmation and Submit
+//   if (step === 5) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Ready to Generate Your Plan?</h2>
+//         <ul>
+//           <li><b>Category:</b> {data.category}</li>
+//           <li><b>Distance:</b> {data.distance}</li>
+//           <li><b>Target Time:</b> {data.targetTime}</li>
+//           <li><b>Days:</b> {data.days.join(", ")}</li>
+//           <li><b>Weekly Distance:</b> {data.weeklyKm} km</li>
+//         </ul>
+//         <button onClick={() => onComplete(data)}>Generate Plan</button>
+//       </div>
+//     );
+//   }
+
+//   return null;
+// }
+
+// import React, { useState } from "react";
+// import { saveGoal } from '../api/goalsAPI.jsx';
+
+// const categories = [
+//   { key: "race", label: "Race", desc: "Personalized plan for your next big event.", icon: "🏁" },
+//   { key: "distance", label: "Run a specific distance", desc: "Pick any distance, from 5k to ultramarathon.", icon: "🏔️" }
+// ];
+// const distances = ["5K", "10K", "Half Marathon", "Full Marathon", "Ultra Marathon"];
+// const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+// export default function TrainingPlanWizard({ onComplete }) {
+//   const [step, setStep] = useState(0);
+//   const [data, setData] = useState({
+//     category: "",
+//     distance: "",
+//     targetTime: "",
+//     days: [],
+//     weeklyKm: "",
+//   });
+//   const [saving, setSaving] = useState(false);
+//   const [error, setError] = useState("");
+
+//   // Step 0: Category selection
+//   if (step === 0) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Choose Your Adventure</h2>
+//         <p>What inspires you most right now?</p>
+//         {categories.map(opt => (
+//           <div key={opt.key} className="wizard-option" onClick={() => { setData(d => ({ ...d, category: opt.key })); setStep(1); }}>
+//             <span style={{ fontSize: 32 }}>{opt.icon}</span>
+//             <div>
+//               <div style={{ color: "#ff7c4f", fontWeight: 600 }}>{opt.label}</div>
+//               <div style={{ color: "#888" }}>{opt.desc}</div>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     );
+//   }
+
+//   // Step 1: Distance
+//   if (step === 1) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Select Your Distance</h2>
+//         <div className="wizard-options-list">
+//           {distances.map(d => (
+//             <button key={d} onClick={() => { setData(dt => ({ ...dt, distance: d })); setStep(2); }}>
+//               {d}
+//             </button>
+//           ))}
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   // Step 2: Target Time
+//   if (step === 2) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Your Target Time</h2>
+//         <p>What is your goal time for this distance? (HH:MM:SS or MM:SS)</p>
+//         <input
+//           type="text"
+//           value={data.targetTime}
+//           placeholder="e.g. 00:45:00"
+//           onChange={e => setData(dt => ({ ...dt, targetTime: e.target.value }))}
+//         />
+//         <small style={{ color: "#888" }}>Format: HH:MM:SS or MM:SS</small>
+//         <br />
+//         <button
+//           disabled={!/^(\d{2}:)?\d{2}:\d{2}$/.test(data.targetTime)}
+//           onClick={() => setStep(3)}
+//         >Next</button>
+//       </div>
+//     );
+//   }
+
+//   // Step 3: Preferred Days
+//   if (step === 3) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Which days do you want to run?</h2>
+//         <div className="days-select">
+//           {daysOfWeek.map(day => (
+//             <label key={day} style={{ marginRight: 16 }}>
+//               <input
+//                 type="checkbox"
+//                 checked={data.days.includes(day)}
+//                 onChange={e => {
+//                   setData(dt => ({
+//                     ...dt,
+//                     days: e.target.checked
+//                       ? [...dt.days, day]
+//                       : dt.days.filter(d => d !== day)
+//                   }));
+//                 }}
+//               />
+//               {day}
+//             </label>
+//           ))}
+//         </div>
+//         <button disabled={data.days.length === 0} onClick={() => setStep(4)}>Next</button>
+//       </div>
+//     );
+//   }
+
+//   // Step 4: Weekly Mileage
+//   if (step === 4) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Weekly Distance</h2>
+//         <p>How many km do you want to run per week?</p>
+//         <input
+//           type="number"
+//           min="1"
+//           value={data.weeklyKm}
+//           placeholder="e.g. 40"
+//           onChange={e => setData(dt => ({ ...dt, weeklyKm: e.target.value }))}
+//         />
+//         <button
+//           disabled={!data.weeklyKm}
+//           onClick={() => setStep(5)}
+//         >Next</button>
+//       </div>
+//     );
+//   }
+
+//   // Step 5: Confirmation and Submit
+//   if (step === 5) {
+//     const handleSaveAndComplete = async () => {
+//       alert("Handler running!");
+//       setSaving(true);
+//       setError("");
+//       const userId = localStorage.getItem('userId');
+//       console.log("About to save goal with:", {
+//         userId,
+//         distance: data.distance,
+//         targetTime: data.targetTime,
+//         days: data.days,
+//         weeklyKm: data.weeklyKm
+//     });
+//       // Save all info to backend
+//       const resp = await saveGoal(
+//         userId,
+//         data.distance,
+//         data.targetTime,
+//         data.days,   
+//         data.weeklyKm
+//       );
+//       if (!resp.success) {
+//         setError(resp.error || "Failed to save goal.");
+//         setSaving(false);
+//         return;
+//       }
+//       setSaving(false);
+//       onComplete(data);
+//     };
+
+//     return (
+//       <div className="wizard-card">
+//         <h2>Ready to Generate Your Plan?</h2>
+//         <ul>
+//           <li><b>Category:</b> {data.category}</li>
+//           <li><b>Distance:</b> {data.distance}</li>
+//           <li><b>Target Time:</b> {data.targetTime}</li>
+//           <li><b>Days:</b> {data.days.join(", ")}</li>
+//           <li><b>Weekly Distance:</b> {data.weeklyKm} km</li>
+//         </ul>
+//         {error && <div style={{ color: 'red', margin: 8 }}>{error}</div>}
+//         <button onClick={handleSaveAndComplete} disabled={saving}>
+//           {saving ? "Saving..." : "Generate Plan"}
+//         </button>
+//       </div>
+//     );
+//   }
+
+//   return null;
+// }
+
+// import React, { useState } from "react";
+// import { saveGoal } from '../api/goalsAPI.jsx';
+
+// const categories = [
+//   { key: "race", label: "Race", desc: "Personalized plan for your next big event.", icon: "🏁" },
+//   { key: "distance", label: "Run a specific distance", desc: "Pick any distance, from 5k to ultramarathon.", icon: "🏔️" }
+// ];
+// const distances = ["5K", "10K", "Half Marathon", "Full Marathon", "Ultra Marathon"];
+// const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+// export default function TrainingPlanWizard({ onComplete }) {
+//   const [step, setStep] = useState(0);
+//   const [data, setData] = useState({
+//     category: "",
+//     distance: "",
+//     targetTime: "",
+//     days: [],
+//     weeklyKm: "",
+//   });
+//   const [saving, setSaving] = useState(false);
+//   const [error, setError] = useState("");
+
+//   // Step 0: Category selection
+//   if (step === 0) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Choose Your Adventure</h2>
+//         <p>What inspires you most right now?</p>
+//         {categories.map(opt => (
+//           <div key={opt.key} className="wizard-option" onClick={() => { setData(d => ({ ...d, category: opt.key })); setStep(1); }}>
+//             <span style={{ fontSize: 32 }}>{opt.icon}</span>
+//             <div>
+//               <div style={{ color: "#ff7c4f", fontWeight: 600 }}>{opt.label}</div>
+//               <div style={{ color: "#888" }}>{opt.desc}</div>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     );
+//   }
+
+//   // Step 1: Distance
+//   if (step === 1) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Select Your Distance</h2>
+//         <div className="wizard-options-list">
+//           {distances.map(d => (
+//             <button key={d} onClick={() => { setData(dt => ({ ...dt, distance: d })); setStep(2); }}>
+//               {d}
+//             </button>
+//           ))}
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   // Step 2: Target Time
+//   if (step === 2) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Your Target Time</h2>
+//         <p>What is your goal time for this distance? (HH:MM:SS or MM:SS)</p>
+//         <input
+//           type="text"
+//           value={data.targetTime}
+//           placeholder="e.g. 00:45:00"
+//           onChange={e => setData(dt => ({ ...dt, targetTime: e.target.value }))}
+//         />
+//         <small style={{ color: "#888" }}>Format: HH:MM:SS or MM:SS</small>
+//         <br />
+//         <button
+//           disabled={!/^(\d{2}:)?\d{2}:\d{2}$/.test(data.targetTime)}
+//           onClick={() => setStep(3)}
+//         >Next</button>
+//       </div>
+//     );
+//   }
+
+//   // Step 3: Preferred Days
+//   if (step === 3) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Which days do you want to run?</h2>
+//         <div className="days-select">
+//           {daysOfWeek.map(day => (
+//             <label key={day} style={{ marginRight: 16 }}>
+//               <input
+//                 type="checkbox"
+//                 checked={data.days.includes(day)}
+//                 onChange={e => {
+//                   setData(dt => ({
+//                     ...dt,
+//                     days: e.target.checked
+//                       ? [...dt.days, day]
+//                       : dt.days.filter(d => d !== day)
+//                   }));
+//                 }}
+//               />
+//               {day}
+//             </label>
+//           ))}
+//         </div>
+//         <button disabled={data.days.length === 0} onClick={() => setStep(4)}>Next</button>
+//       </div>
+//     );
+//   }
+
+//   // Step 4: Weekly Mileage
+//   if (step === 4) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Weekly Distance</h2>
+//         <p>How many km do you want to run per week?</p>
+//         <input
+//           type="number"
+//           min="1"
+//           value={data.weeklyKm}
+//           placeholder="e.g. 40"
+//           onChange={e => setData(dt => ({ ...dt, weeklyKm: e.target.value }))}
+//         />
+//         <button
+//           disabled={!data.weeklyKm}
+//           onClick={() => setStep(5)}
+//         >Next</button>
+//       </div>
+//     );
+//   }
+
+//   // Step 5: Confirmation and Submit
+//   if (step === 5) {
+//   const handleSaveAndComplete = async () => {
+//     setSaving(true);
+//     setError("");
+//     const userId = localStorage.getItem('userId');
+//     // Debug: Log the data you are about to submit
+//     console.log("Submitting goal with data:", JSON.stringify(data, null, 2));
+//     // Save all info to backend
+//     const resp = await saveGoal(
+//       userId,
+//       data.distance,
+//       data.targetTime,
+//       data.days,        // Should be array of days (e.g. ["Wednesday", "Friday", ...])
+//       data.weeklyKm     // Should be a string or number, not blank
+//     );
+//     if (!resp.success) {
+//       setError(resp.error || "Failed to save goal.");
+//       setSaving(false);
+//       return;
+//     }
+//     setSaving(false);
+//     onComplete(data);
+//   };
+
+//   return (
+//     <div className="wizard-card">
+//       <h2>Ready to Generate Your Plan?</h2>
+//       <ul>
+//         <li><b>Category:</b> {data.category}</li>
+//         <li><b>Distance:</b> {data.distance}</li>
+//         <li><b>Target Time:</b> {data.targetTime}</li>
+//         <li><b>Days:</b> {data.days.join(", ")}</li>
+//         <li><b>Weekly Distance:</b> {data.weeklyKm} km</li>
+//       </ul>
+//       {error && <div style={{ color: 'red', margin: 8 }}>{error}</div>}
+//       <button onClick={handleSaveAndComplete} disabled={saving}>
+//         {saving ? "Saving..." : "Generate Plan"}
+//       </button>
+//     </div>
+//   );
+// }
+// }
+
+// import React, { useState } from "react";
+// import { saveGoal } from '../api/goalsAPI.jsx';
+
+// const categories = [
+//   { key: "race", label: "Race", desc: "Personalized plan for your next big event.", icon: "🏁" },
+//   { key: "distance", label: "Run a specific distance", desc: "Pick any distance, from 5k to ultramarathon.", icon: "🏔️" }
+// ];
+// const distances = ["5K", "10K", "Half Marathon", "Full Marathon", "Ultra Marathon"];
+// const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+// export default function TrainingPlanWizard({ onComplete }) {
+//   const [step, setStep] = useState(0);
+//   const [data, setData] = useState({
+//     category: "",
+//     distance: "",
+//     targetTime: "",
+//     days: [],
+//     weeklyKm: "",
+//   });
+//   const [saving, setSaving] = useState(false);
+//   const [error, setError] = useState("");
+
+//   // Step 0: Category selection
+//   if (step === 0) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Choose Your Adventure</h2>
+//         <p>What inspires you most right now?</p>
+//         {categories.map(opt => (
+//           <div key={opt.key} className="wizard-option" onClick={() => { setData(d => ({ ...d, category: opt.key })); setStep(1); }}>
+//             <span style={{ fontSize: 32 }}>{opt.icon}</span>
+//             <div>
+//               <div style={{ color: "#ff7c4f", fontWeight: 600 }}>{opt.label}</div>
+//               <div style={{ color: "#888" }}>{opt.desc}</div>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     );
+//   }
+
+//   // Step 1: Distance
+//   if (step === 1) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Select Your Distance</h2>
+//         <div className="wizard-options-list">
+//           {distances.map(d => (
+//             <button key={d} onClick={() => { setData(dt => ({ ...dt, distance: d })); setStep(2); }}>
+//               {d}
+//             </button>
+//           ))}
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   // Step 2: Target Time
+//   if (step === 2) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Your Target Time</h2>
+//         <p>What is your goal time for this distance? (HH:MM:SS or MM:SS)</p>
+//         <input
+//           type="text"
+//           value={data.targetTime}
+//           placeholder="e.g. 00:45:00"
+//           onChange={e => setData(dt => ({ ...dt, targetTime: e.target.value }))}
+//         />
+//         <small style={{ color: "#888" }}>Format: HH:MM:SS or MM:SS</small>
+//         <br />
+//         <button
+//           disabled={!/^(\d{2}:)?\d{2}:\d{2}$/.test(data.targetTime)}
+//           onClick={() => setStep(3)}
+//         >Next</button>
+//       </div>
+//     );
+//   }
+
+//   // Step 3: Preferred Days
+//   if (step === 3) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Which days do you want to run?</h2>
+//         <div className="days-select">
+//           {daysOfWeek.map(day => (
+//             <label key={day} style={{ marginRight: 16 }}>
+//               <input
+//                 type="checkbox"
+//                 checked={data.days.includes(day)}
+//                 onChange={e => {
+//                   setData(dt => ({
+//                     ...dt,
+//                     days: e.target.checked
+//                       ? [...dt.days, day]
+//                       : dt.days.filter(d => d !== day)
+//                   }));
+//                 }}
+//               />
+//               {day}
+//             </label>
+//           ))}
+//         </div>
+//         <button disabled={data.days.length === 0} onClick={() => setStep(4)}>Next</button>
+//       </div>
+//     );
+//   }
+
+//   // Step 4: Weekly Mileage
+//   if (step === 4) {
+//     return (
+//       <div className="wizard-card">
+//         <h2>Weekly Distance</h2>
+//         <p>How many km do you want to run per week?</p>
+//         <input
+//           type="number"
+//           min="1"
+//           value={data.weeklyKm}
+//           placeholder="e.g. 40"
+//           onChange={e => setData(dt => ({ ...dt, weeklyKm: e.target.value }))}
+//         />
+//         <button
+//           disabled={!data.weeklyKm}
+//           onClick={() => setStep(5)}
+//         >Next</button>
+//       </div>
+//     );
+//   }
+
+//   // Step 5: Confirmation and Submit
+//   if (step === 5) {
+//     const handleSaveAndComplete = async () => {
+//       setSaving(true);
+//       setError("");
+//       const userId = localStorage.getItem('userId');
+//       console.log("About to send to saveGoal:", data);
+//       // Debug: Log the data you are about to submit
+//       console.log("Submitting goal with data:", JSON.stringify(data, null, 2));
+//       // Save all info to backend
+//       const resp = await saveGoal(
+//         userId,
+//         data.distance,
+//         data.targetTime,
+//         data.days,        // Should be array of days (e.g. ["Wednesday", "Friday", ...])
+//         data.weeklyKm     // Should be a string or number, not blank
+//       );
+//       if (!resp.success) {
+//         setError(resp.error || "Failed to save goal.");
+//         setSaving(false);
+//         return;
+//       }
+//       setSaving(false);
+//       onComplete(data);
+//     };
+
+//     return (
+//       <div className="wizard-card">
+//         <h2>Ready to Generate Your Plan?</h2>
+//         <ul>
+//           <li><b>Category:</b> {data.category}</li>
+//           <li><b>Distance:</b> {data.distance}</li>
+//           <li><b>Target Time:</b> {data.targetTime}</li>
+//           <li><b>Days:</b> {data.days.join(", ")}</li>
+//           <li><b>Weekly Distance:</b> {data.weeklyKm} km</li>
+//         </ul>
+//         {error && <div style={{ color: 'red', margin: 8 }}>{error}</div>}
+//         <button onClick={handleSaveAndComplete} disabled={saving}>
+//           {saving ? "Saving..." : "Generate Plan"}
+//         </button>
+//       </div>
+//     );
+//   }
+
+//   return null;
+// }
+
+
+import React, { useState } from "react";
+import { saveGoal } from '../api/goalsAPI.jsx';
+
 const categories = [
   { key: "race", label: "Race", desc: "Personalized plan for your next big event.", icon: "🏁" },
   { key: "distance", label: "Run a specific distance", desc: "Pick any distance, from 5k to ultramarathon.", icon: "🏔️" }
 ];
 const distances = ["5K", "10K", "Half Marathon", "Full Marathon", "Ultra Marathon"];
-const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 export default function TrainingPlanWizard({ onComplete }) {
   const [step, setStep] = useState(0);
+
+  // This is the ONLY wizard state!
   const [data, setData] = useState({
     category: "",
     distance: "",
@@ -19,6 +699,9 @@ export default function TrainingPlanWizard({ onComplete }) {
     weeklyKm: "",
   });
 
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+
   // Step 0: Category selection
   if (step === 0) {
     return (
@@ -26,7 +709,14 @@ export default function TrainingPlanWizard({ onComplete }) {
         <h2>Choose Your Adventure</h2>
         <p>What inspires you most right now?</p>
         {categories.map(opt => (
-          <div key={opt.key} className="wizard-option" onClick={() => { setData(d => ({ ...d, category: opt.key })); setStep(1); }}>
+          <div
+            key={opt.key}
+            className="wizard-option"
+            onClick={() => {
+              setData(d => ({ ...d, category: opt.key }));
+              setStep(1);
+            }}
+          >
             <span style={{ fontSize: 32 }}>{opt.icon}</span>
             <div>
               <div style={{ color: "#ff7c4f", fontWeight: 600 }}>{opt.label}</div>
@@ -45,7 +735,13 @@ export default function TrainingPlanWizard({ onComplete }) {
         <h2>Select Your Distance</h2>
         <div className="wizard-options-list">
           {distances.map(d => (
-            <button key={d} onClick={() => { setData(dt => ({ ...dt, distance: d })); setStep(2); }}>
+            <button
+              key={d}
+              onClick={() => {
+                setData(dt => ({ ...dt, distance: d }));
+                setStep(2);
+              }}
+            >
               {d}
             </button>
           ))}
@@ -54,7 +750,7 @@ export default function TrainingPlanWizard({ onComplete }) {
     );
   }
 
-  // Step 2: Target Time (reuse your GoalSurvey logic)
+  // Step 2: Target Time
   if (step === 2) {
     return (
       <div className="wizard-card">
@@ -64,14 +760,18 @@ export default function TrainingPlanWizard({ onComplete }) {
           type="text"
           value={data.targetTime}
           placeholder="e.g. 00:45:00"
-          onChange={e => setData(dt => ({ ...dt, targetTime: e.target.value }))}
+          onChange={e =>
+            setData(dt => ({ ...dt, targetTime: e.target.value }))
+          }
         />
         <small style={{ color: "#888" }}>Format: HH:MM:SS or MM:SS</small>
         <br />
         <button
           disabled={!/^(\d{2}:)?\d{2}:\d{2}$/.test(data.targetTime)}
           onClick={() => setStep(3)}
-        >Next</button>
+        >
+          Next
+        </button>
       </div>
     );
   }
@@ -100,7 +800,12 @@ export default function TrainingPlanWizard({ onComplete }) {
             </label>
           ))}
         </div>
-        <button disabled={data.days.length === 0} onClick={() => setStep(4)}>Next</button>
+        <button
+          disabled={data.days.length === 0}
+          onClick={() => setStep(4)}
+        >
+          Next
+        </button>
       </div>
     );
   }
@@ -116,29 +821,72 @@ export default function TrainingPlanWizard({ onComplete }) {
           min="1"
           value={data.weeklyKm}
           placeholder="e.g. 40"
-          onChange={e => setData(dt => ({ ...dt, weeklyKm: e.target.value }))}
+          onChange={e =>
+            setData(dt => ({ ...dt, weeklyKm: e.target.value }))
+          }
         />
         <button
           disabled={!data.weeklyKm}
           onClick={() => setStep(5)}
-        >Next</button>
+        >
+          Next
+        </button>
       </div>
     );
   }
 
   // Step 5: Confirmation and Submit
   if (step === 5) {
+    const handleSaveAndComplete = async () => {
+      setSaving(true);
+      setError("");
+      const userId = localStorage.getItem("userId");
+      // --- CRUCIAL: This log should show the correct data!
+      console.log("About to send to saveGoal:", data);
+
+      // Save all info to backend
+      const resp = await saveGoal(
+        userId,
+        data.distance,
+        data.targetTime,
+        data.days,      // This will be correct if and only if all previous setData are correct!
+        data.weeklyKm   // This will be correct if and only if all previous setData are correct!
+      );
+      if (!resp.success) {
+        setError(resp.error || "Failed to save goal.");
+        setSaving(false);
+        return;
+      }
+      setSaving(false);
+      onComplete(data);
+    };
+
     return (
       <div className="wizard-card">
         <h2>Ready to Generate Your Plan?</h2>
         <ul>
-          <li><b>Category:</b> {data.category}</li>
-          <li><b>Distance:</b> {data.distance}</li>
-          <li><b>Target Time:</b> {data.targetTime}</li>
-          <li><b>Days:</b> {data.days.join(", ")}</li>
-          <li><b>Weekly Distance:</b> {data.weeklyKm} km</li>
+          <li>
+            <b>Category:</b> {data.category}
+          </li>
+          <li>
+            <b>Distance:</b> {data.distance}
+          </li>
+          <li>
+            <b>Target Time:</b> {data.targetTime}
+          </li>
+          <li>
+            <b>Days:</b> {data.days.join(", ")}
+          </li>
+          <li>
+            <b>Weekly Distance:</b> {data.weeklyKm} km
+          </li>
         </ul>
-        <button onClick={() => onComplete(data)}>Generate Plan</button>
+        {error && (
+          <div style={{ color: "red", margin: 8 }}>{error}</div>
+        )}
+        <button onClick={handleSaveAndComplete} disabled={saving}>
+          {saving ? "Saving..." : "Generate Plan"}
+        </button>
       </div>
     );
   }
