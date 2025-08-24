@@ -1,4 +1,5 @@
 const express = require('express');
+const { createServer } = require('http');
 const cors = require('cors'); // Import cors
 const passport = require('passport'); // Import passport
 require('./config/authConfig'); // Google OAuth configuration
@@ -22,24 +23,25 @@ app.use(
   })
 );
 
-// 2. Then session and passport
+// Body parsing middleware
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
+// Session configuration
 app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
+  secret: process.env.SESSION_SECRET || 'your-secret-key',
+  resave: true,
+  saveUninitialized: true,
   cookie: { 
-    secure: false,
+    secure: false, // set to true in production with HTTPS
     sameSite: 'lax',
-   } // Set to true if using HTTPS
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-// Then parse JSON bodies
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Default route for `/`
 app.get('/', (req, res) => {
@@ -58,8 +60,42 @@ app.use('/api/auth', authRoutes); // Google auth routes
 // Global error handler
 app.use(errorHandler);
 
-// Start the server
+// Process error handling
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // Application specific logging, throwing an error, or other logic here
+});
+
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+  // Application specific logging, throwing an error, or other logic here
+});
+
+// Graceful shutdown
+const server = createServer(app);
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+let serverInstance = server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+const shutdown = () => {
+  console.log('Received kill signal, shutting down gracefully');
+  serverInstance.close(() => {
+    console.log('Closed out remaining connections');
+    process.exit(0);
+  });
+
+  // If connections don't close within 10 seconds, forcefully shut down
+  setTimeout(() => {
+    console.error('Could not close connections in time, forcefully shutting down');
+    process.exit(1);
+  }, 10000);
+};
+
+// Listen for SIGTERM signal
+process.on('SIGTERM', shutdown);
+// Listen for SIGINT signal (Ctrl+C)
+process.on('SIGINT', shutdown);
 
 module.exports = app; // Export for testing purposes

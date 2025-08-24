@@ -3,18 +3,35 @@ const passport = require('passport');
 require('dotenv').config();
 const StravaStrategy = require('passport-strava-oauth2').Strategy;
 
+// Passport session setup
+passport.serializeUser((user, done) => {
+  console.log('Serializing user:CCCCCC', { user });
+  console.log('Serializing user:BBBBB', { id: user.id, provider: user.provider });
+  console.log('Serializing user:AAAAAAAAAA', { id: user.id, provider: user.provider });
+  // Only store essential user data in session
+  const sessionUser = {
+    id: user.id,
+    provider: user.provider,
+    displayName: user.displayName
+  };
+  done(null, sessionUser);
+});
+
+passport.deserializeUser((sessionUser, done) => {
+  console.log('Deserializing user:', sessionUser);
+  done(null, sessionUser);
+});
+
 // Google OAuth Strategy
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID, // Your Google Client ID
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET, // Your Google Client Secret
-      callbackURL: '/api/auth/google/callback', // Callback URL after Google login
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: '/api/auth/google/callback',
     },
     (accessToken, refreshToken, profile, done) => {
-      // Handle user profile here
       console.log('Google Profile:', profile);
-      // Pass the profile to the next middleware
       done(null, profile);
     }
   )
@@ -29,21 +46,16 @@ passport.use(
       callbackURL: '/api/auth/strava/callback',
     },
     (accessToken, refreshToken, profile, done) => {
-      if (profile.id === 139463954) {
-        return done(null, false, { message: 'This Strava account is reserved for system use.' });
-      }
-      // You may want to check if the user exists in your DB, etc.
-      return done(null, profile);
+      console.log('Strava Profile:', profile);
+      // Create a user object with essential data
+      const user = {
+        id: profile.id,
+        provider: profile.provider,
+        displayName: profile.displayName,
+        stravaAccessToken: accessToken,
+        stravaRefreshToken: refreshToken
+      };
+      return done(null, user);
     }
   )
 );
-
-// Serialize user (save user data in session)
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-// Deserialize user (retrieve user data from session)
-passport.deserializeUser((user, done) => {
-  done(null, user);
-});

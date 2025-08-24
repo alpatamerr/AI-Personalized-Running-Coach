@@ -188,7 +188,6 @@ const DashboardPage = () => {
                   </div>
                 </div>
               ))}
-              <button className="view-all-btn">View All Activities</button>
             </div>
           ) : (
             <div className="coming-soon">

@@ -1,7 +1,132 @@
+const path = require('path');
+const loadKMeansModel = require('../utils/kmeans_predict');
+const clusterInfo = require('../utils/cluster_info');
+
+// Build a system prompt for users with a plan, using their last 10 runs
+const buildSystemPromptWithRecentRuns = ({
+  username,
+  goalDistance,
+  goalTime,
+  runDays,
+  weeklyDistance,
+  recentRuns
+}) => {
+  // Format recent runs as a summary string
+  const runsSummary = recentRuns.map((r, idx) => {
+    const dateStr = r.run_date ? (r.run_date.toISOString ? r.run_date.toISOString().slice(0,10) : r.run_date) : '';
+    const clusterStr = r.clusterInfo ? `\n  Cluster: ${r.clusterInfo.name} - ${r.clusterInfo.description}` : '';
+    return `Run ${idx + 1}: ${dateStr}, ${r.distance_km} km, ${r.duration_minutes} min, ${r.pace} min/km, cadence: ${r.average_cadence || ''}, HR: ${r.average_heartrate || ''}${clusterStr}`;
+  }).join('\n');
+
+  return `You are an expert running coach.\n\nCreate a 16-week periodised running plan for the athlete below.\nReturn the answer **as raw JSON** – an array where each element has:\n  week  (int, 1-16),\n  day   (string, e.g. \"Monday\"),\n  type  (string, e.g. \"Long Run\", \"Tempo\", \"Intervals\", \"Easy\", \"Rest\"),\n  distance_km (number, one decimal),\n  target_pace (number, minutes per km with two decimals),\n  notes (string, optional, e.g. \"Focus on form\", \"Hydrate well\"),\n  explanation (string, optional, e.g. \"Long run to build endurance\").\nDo NOT wrap the JSON in markdown or commentary.\n\nRunner profile\n--------------\nName              : ${username}\nGoal distance      : ${goalDistance}\nTarget time        : ${goalTime}\nPreferred run days : ${runDays.join(', ')}\nWeekly distance aim: ${weeklyDistance} km\n\nRecent run history (last 10 runs):\n${runsSummary}\n\nRules\n-----\n• Use 3-week build + 1-week deload structure.\n• Keep weekly km increases ≤ 10%.\n• Each week must include at least one rest day.\n• Long run happens on the last weekend day in runDays.`;
+};
+// Helper to get last N runs from training_records (record_type='run')
+const getUserRecentRunsFromTrainingRecords = async (userId, limit = 10) => {
+  const { rows } = await pool.query(
+    `SELECT * FROM training_records WHERE user_id = $1 AND record_type = 'run' AND distance_km IS NOT NULL AND pace IS NOT NULL
+     ORDER BY run_date DESC LIMIT $2`,
+    [userId, limit]
+  );
+  return rows;
+};
+
+
+// --- Save run performance for a specific week/day (use training_records table) ---
+exports.saveRunPerformance = async (req, res) => {
+  try {
+    console.log('Saving run performance:', req.body);
+    const { userId, week, day, distance_km, duration_minutes, pace, average_cadence, average_heartrate } = req.body;
+    if (!userId || !week || !day) {
+      return res.status(400).json({ success: false, error: 'userId, week, and day are required' });
+    }
+    // Find the run_date for this user/week/day from plan_details
+    const planRes = await pool.query(
+      `SELECT pd.week, pd.day, tp.start_date
+       FROM plan_details pd
+       JOIN training_plans tp ON pd.training_plan_id = tp.id
+       WHERE tp.user_id = $1 AND pd.week = $2 AND pd.day = $3
+       ORDER BY tp.created_at DESC LIMIT 1`,
+      [userId, week, day]
+    );
+    if (!planRes.rows.length) {
+      return res.status(404).json({ success: false, error: 'No plan found for this week/day' });
+    }
+    // Calculate run_date: start_date + (week-1)*7 + day offset
+    const startDate = new Date(planRes.rows[0].start_date);
+    const daysOfWeek = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+    const dayIdx = daysOfWeek.indexOf(day);
+    if (dayIdx === -1) return res.status(400).json({ success: false, error: 'Invalid day' });
+    const runDate = new Date(startDate);
+    runDate.setDate(startDate.getDate() + (week-1)*7 + dayIdx);
+    const run_date_str = runDate.toISOString().slice(0,10);
+    // Upsert by user_id, run_date, and record_type = 'run'
+    const existing = await pool.query(
+      `SELECT id FROM training_records WHERE user_id = $1 AND run_date = $2 AND record_type = 'run'`,
+      [userId, run_date_str]
+    );
+    if (existing.rows.length) {
+      await pool.query(
+        `UPDATE training_records SET distance_km = $1, duration_minutes = $2, pace = $3, average_cadence = $4, average_heartrate = $5
+         WHERE user_id = $6 AND run_date = $7 AND record_type = 'run'`,
+        [distance_km, duration_minutes, pace, average_cadence, average_heartrate, userId, run_date_str]
+      );
+    } else {
+      await pool.query(
+        `INSERT INTO training_records (user_id, record_type, distance_km, duration_minutes, pace, average_cadence, average_heartrate, run_date, created_at)
+         VALUES ($1, 'run', $2, $3, $4, $5, $6, $7, NOW())`,
+        [userId, distance_km, duration_minutes, pace, average_cadence, average_heartrate, run_date_str]
+      );
+    }
+    return res.json({ success: true });
+  } catch (err) {
+    console.error('Error saving run performance:', err);
+    return res.status(500).json({ success: false, error: 'Failed to save performance', details: err.message });
+  }
+};
+
+// --- Get run performance for a specific week/day (use training_records table) ---
+exports.getRunPerformance = async (req, res) => {
+  try {
+    const { userId, week, day } = req.query;
+    if (!userId || !week || !day) {
+      return res.status(400).json({ success: false, error: 'userId, week, and day are required' });
+    }
+    // Find the run_date for this user/week/day from plan_details
+    const planRes = await pool.query(
+      `SELECT pd.week, pd.day, tp.start_date
+       FROM plan_details pd
+       JOIN training_plans tp ON pd.training_plan_id = tp.id
+       WHERE tp.user_id = $1 AND pd.week = $2 AND pd.day = $3
+       ORDER BY tp.created_at DESC LIMIT 1`,
+      [userId, week, day]
+    );
+    if (!planRes.rows.length) {
+      return res.status(404).json({ success: false, error: 'No plan found for this week/day' });
+    }
+    const startDate = new Date(planRes.rows[0].start_date);
+    const daysOfWeek = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+    const dayIdx = daysOfWeek.indexOf(day);
+    if (dayIdx === -1) return res.status(400).json({ success: false, error: 'Invalid day' });
+    const runDate = new Date(startDate);
+    runDate.setDate(startDate.getDate() + (week-1)*7 + dayIdx);
+    const run_date_str = runDate.toISOString().slice(0,10);
+    const { rows } = await pool.query(
+      `SELECT distance_km, duration_minutes, pace, average_cadence, average_heartrate FROM training_records WHERE user_id = $1 AND run_date = $2 AND record_type = 'run'`,
+      [userId, run_date_str]
+    );
+    if (!rows.length) {
+      return res.status(404).json({ success: false, error: 'No performance found' });
+    }
+    return res.json({ success: true, data: rows[0] });
+  } catch (err) {
+    console.error('Error fetching run performance:', err);
+    return res.status(500).json({ success: false, error: 'Failed to fetch performance', details: err.message });
+  }
+};
 const pool = require('../config/db');
 const OpenAI = require('openai');
 const fs = require('fs');
-const path = require('path');
+// const path = require('path');
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // Helper to get baseline run data (user or Strava demo)
@@ -78,12 +203,13 @@ exports.generateTrainingPlan = async (req, res) => {
       return res.status(400).json({ success: false, error: 'userId required' });
     }
 
+
     // 1. Fetch user info + goal -------------------------------------------
     const userRes = await pool.query('SELECT username FROM users WHERE id = $1', [userId]);
     const username = userRes.rows.length ? userRes.rows[0].username : 'Athlete';
 
     const { rows: goals } = await pool.query(
-      'SELECT * FROM goals WHERE user_id = $1 ORDER BY updated_at DESC LIMIT 1',
+      'SELECT * FROM goals WHERE user_id = $1 ORDER BY created_at DESC LIMIT 1',
       [userId]
     );
     if (!goals.length) {
@@ -95,22 +221,61 @@ exports.generateTrainingPlan = async (req, res) => {
     const runDays = goal.days ? goal.days.split(',') : ['Monday', 'Wednesday', 'Friday', 'Saturday'];
     const weeklyDistance = goal.weekly_km ? Number(goal.weekly_km) : 40;
 
+
     // 2. Baseline metrics ----------------------------------------------------
-    const runs = await getUserBaseline(userId);
-    const avgPace = runs.length
-      ? runs.reduce((sum, r) => sum + Number(r.pace), 0) / runs.length
-      : 6.0; // default 6 min/km if no data
-
-    // 3. Build GPT prompts ---------------------------------------------------
-    const systemPrompt = buildSystemPrompt({
-      username,
-      goalDistance: goal.distance,
-      goalTime: goal.target_time,
-      runDays,
-      weeklyDistance,
-      avgPace,
-    });
-
+    // If user already has a plan, use last 10 runs from training_records, else fallback to getUserBaseline
+    let runs = [];
+    const { rows: existingPlans } = await pool.query(
+      'SELECT id FROM training_plans WHERE user_id = $1',
+      [userId]
+    );
+    let systemPrompt;
+    let runClusters = [];
+    if (existingPlans.length > 0) {
+      runs = await getUserRecentRunsFromTrainingRecords(userId, 10);
+      // --- KMeans clustering ---
+      try {
+        const kmeansPath = path.join(__dirname, '../..', 'ml', 'kmeans_model.json');
+        const kmeans = loadKMeansModel(kmeansPath);
+        runClusters = runs.map(run => {
+          const clusterIdx = kmeans.predict(run);
+          return {
+            ...run,
+            cluster: clusterIdx,
+            clusterInfo: clusterInfo[clusterIdx] || null
+          };
+        });
+      } catch (err) {
+        console.error('KMeans clustering error:', err);
+        runClusters = runs.map(run => ({ ...run, cluster: null, clusterInfo: null }));
+      }
+      console.log('Run clusters:', runClusters);
+      const avgPace = runs.length
+        ? runs.reduce((sum, r) => sum + Number(r.pace), 0) / runs.length
+        : 6.0;
+      systemPrompt = buildSystemPromptWithRecentRuns({
+        username,
+        goalDistance: goal.distance,
+        goalTime: goal.target_time,
+        runDays,
+        weeklyDistance,
+        recentRuns: runClusters
+      });
+    } else {
+      runs = await getUserBaseline(userId);
+      const avgPace = runs.length
+        ? runs.reduce((sum, r) => sum + Number(r.pace), 0) / runs.length
+        : 6.0;
+      systemPrompt = buildSystemPrompt({
+        username,
+        goalDistance: goal.distance,
+        goalTime: goal.target_time,
+        runDays,
+        weeklyDistance,
+        avgPace,
+      });
+    }
+    console.log('System prompt:', systemPrompt);
     const userPrompt = 'Generate the plan now for 16 weeks.';
 
     // 4. Call OpenAI ---------------------------------------------------------
@@ -209,7 +374,8 @@ exports.generateTrainingPlan = async (req, res) => {
     // 5. Persist plan into training_plans table (optional – here we just return)
     // In real app you might INSERT rows.  For now send back to client.
 
-    return res.json({ success: true, plan: gptPlan });
+    // Also return cluster assignments for last 10 runs if available
+    return res.json({ success: true, plan: gptPlan, runClusters });
   } catch (err) {
     console.error('Error generating plan:', err);
     return res.status(500).json({ success: false, error: 'Failed to generate plan', details: err.message });
