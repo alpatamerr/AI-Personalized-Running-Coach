@@ -139,6 +139,24 @@ const syncStravaData = async (req, res, next) => {
             sportType,
           ]
         );
+
+        // Also insert into training_records
+        await pool.query(
+          `INSERT INTO training_records (
+            user_id, record_type, distance_km, duration_minutes, pace, average_cadence, average_heartrate, run_date, created_at
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())
+          ON CONFLICT DO NOTHING;`,
+          [
+            userId,
+            'run',
+            distanceKm,
+            durationMinutes,
+            pace,
+            averageCadence,
+            Math.round(Number(averageHeartrate)) || null,
+            runDate
+          ]
+        );
       } catch (insertErr) {
         console.error(`❌ Failed to sync ${activityId}:`, insertErr);
       }

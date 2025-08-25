@@ -296,7 +296,7 @@ export default function TrainingPlanCalendarPage() {
         },
         credentials: 'include'
       });
-      
+      console.log("res", res); 
       const data = await res.json();
       if (!data.success) {
         console.error("Failed to generate plan:", data.error);
@@ -399,11 +399,24 @@ export default function TrainingPlanCalendarPage() {
 
   const handleInputChange = (day, field, value) => {
     setPerformanceInputs(inputs => {
+      let durationValue = value;
+      if (field === "duration_minutes" && value) {
+        let min = Math.floor(Number(value));
+        let sec = Math.round((Number(value) - min) * 60);
+        // Only roll over if seconds >= 60
+        if (sec >= 60) {
+          min += Math.floor(sec / 60);
+          sec = sec % 60;
+          durationValue = min + (sec / 60);
+        } else {
+          durationValue = Number(value);
+        }
+      }
       const updated = {
         ...inputs,
         [day]: {
           ...inputs[day],
-          [field]: value
+          [field]: durationValue
         }
       };
       // If distance or duration changes, update pace automatically
@@ -446,7 +459,7 @@ export default function TrainingPlanCalendarPage() {
       <div style={{ display: "flex" }}>
         {daysOfWeek.map((day, idx) => {
           const run = plan.find(r => r.week === week && r.day === day);
-          const runDate = addDays(weekStart, idx);
+          const runDate = addDays(weekStart, idx + (7*(week-1)));
           return (
             <div
               key={day}
