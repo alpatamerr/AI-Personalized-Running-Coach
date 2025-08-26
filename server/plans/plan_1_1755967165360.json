@@ -1,0 +1,722 @@
+[
+  {
+    "week": 1,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 6.0,
+    "target_pace": "6.00",
+    "notes": "Start with a comfortable pace",
+    "explanation": "Establish a base endurance with an easy run."
+  },
+  {
+    "week": 1,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 8.0,
+    "target_pace": "4.45",
+    "notes": "Maintain steady effort",
+    "explanation": "Build sustained pace capacity."
+  },
+  {
+    "week": 1,
+    "day": "Thursday",
+    "type": "Easy",
+    "distance_km": 6.0,
+    "target_pace": "6.00",
+    "notes": "Recovery run",
+    "explanation": "Aid recovery and maintain weekly mileage."
+  },
+  {
+    "week": 1,
+    "day": "Friday",
+    "type": "Intervals",
+    "distance_km": 5.0,
+    "target_pace": "4.00",
+    "notes": "4 x 1.25 km intervals at faster pace with recovery jogs",
+    "explanation": "Introduce speed work to improve VO2 max and leg turnover."
+  },
+  {
+    "week": 1,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 12.0,
+    "target_pace": "6.00",
+    "notes": "Focus on time on feet, hydrate well",
+    "explanation": "Build endurance close to race distance."
+  },
+  {
+    "week": 2,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 6.6,
+    "target_pace": "6.00",
+    "notes": "Ease into weekly mileage increase",
+    "explanation": "Maintain gradual progression."
+  },
+  {
+    "week": 2,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 8.8,
+    "target_pace": "4.45",
+    "notes": "Consistent effort, stay controlled",
+    "explanation": "Enhance lactate threshold."
+  },
+  {
+    "week": 2,
+    "day": "Thursday",
+    "type": "Easy",
+    "distance_km": 6.6,
+    "target_pace": "6.00",
+    "notes": "Recovery run",
+    "explanation": "Facilitate adaptation."
+  },
+  {
+    "week": 2,
+    "day": "Friday",
+    "type": "Intervals",
+    "distance_km": 5.0,
+    "target_pace": "4.00",
+    "notes": "4 x 1.25 km at faster pace",
+    "explanation": "Further speed development."
+  },
+  {
+    "week": 2,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 13.2,
+    "target_pace": "6.00",
+    "notes": "Practice nutrition, hydration",
+    "explanation": "Slightly increased endurance challenge."
+  },
+  {
+    "week": 3,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 7.3,
+    "target_pace": "6.00",
+    "notes": "Stay comfortable",
+    "explanation": "Maintain base mileage."
+  },
+  {
+    "week": 3,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 9.7,
+    "target_pace": "4.45",
+    "notes": "Steady effort",
+    "explanation": "Build tempo endurance."
+  },
+  {
+    "week": 3,
+    "day": "Thursday",
+    "type": "Easy",
+    "distance_km": 7.3,
+    "target_pace": "6.00",
+    "notes": "Recovery run",
+    "explanation": "Support recovery and adaptation."
+  },
+  {
+    "week": 3,
+    "day": "Friday",
+    "type": "Intervals",
+    "distance_km": 5.0,
+    "target_pace": "3.55",
+    "notes": "4 x 1.25 km faster repeats",
+    "explanation": "Increased intensity for speed gains."
+  },
+  {
+    "week": 3,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 14.5,
+    "target_pace": "6.00",
+    "notes": "Focus on steady pace, hydration",
+    "explanation": "Build endurance closer to race pace."
+  },
+  {
+    "week": 4,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 7.9,
+    "target_pace": "6.00",
+    "notes": "Maintain comfort",
+    "explanation": "Active recovery, prepare for deload week."
+  },
+  {
+    "week": 4,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 10.4,
+    "target_pace": "4.45",
+    "notes": "Steady, controlled effort",
+    "explanation": "Solidify threshold pace."
+  },
+  {
+    "week": 4,
+    "day": "Thursday",
+    "type": "Easy",
+    "distance_km": 7.9,
+    "target_pace": "6.00",
+    "notes": "Active recovery",
+    "explanation": "Reduce fatigue, recovery week."
+  },
+  {
+    "week": 4,
+    "day": "Friday",
+    "type": "Intervals",
+    "distance_km": 5.0,
+    "target_pace": "3.55",
+    "notes": "Faster repeats, 4 x 1.25 km",
+    "explanation": "Maintain speed development."
+  },
+  {
+    "week": 4,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 13.0,
+    "target_pace": "6.00",
+    "notes": "Recovery focus after building weeks",
+    "explanation": "Tapering volume, keeping endurance."
+  },
+  {
+    "week": 5,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 8.7,
+    "target_pace": "6.00",
+    "notes": "Comfortable pace",
+    "explanation": "Prepare for upcoming increase."
+  },
+  {
+    "week": 5,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 11.6,
+    "target_pace": "4.45",
+    "notes": "Maintain steady effort",
+    "explanation": "Build threshold stamina."
+  },
+  {
+    "week": 5,
+    "day": "Thursday",
+    "type": "Easy",
+    "distance_km": 8.7,
+    "target_pace": "6.00",
+    "notes": "Recovery run",
+    "explanation": "Support volume increase."
+  },
+  {
+    "week": 5,
+    "day": "Friday",
+    "type": "Intervals",
+    "distance_km": 5.0,
+    "target_pace": "3.50",
+    "notes": "5 x 1 km at faster pace",
+    "explanation": "Boost speed for race pace."
+  },
+  {
+    "week": 5,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 15.0,
+    "target_pace": "6.00",
+    "notes": "Focus on endurance and nutrition",
+    "explanation": "Peak weekly long run."
+  },
+  {
+    "week": 6,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 9.6,
+    "target_pace": "6.00",
+    "notes": "Maintain steady effort",
+    "explanation": "Active recovery after long run."
+  },
+  {
+    "week": 6,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 12.8,
+    "target_pace": "4.45",
+    "notes": "Steady pace",
+    "explanation": "Improve lactate threshold."
+  },
+  {
+    "week": 6,
+    "day": "Thursday",
+    "type": "Easy",
+    "distance_km": 9.6,
+    "target_pace": "6.00",
+    "notes": "Recovery run",
+    "explanation": "Support adaptation."
+  },
+  {
+    "week": 6,
+    "day": "Friday",
+    "type": "Intervals",
+    "distance_km": 5.0,
+    "target_pace": "3.50",
+    "notes": "4 x 1 km repeats",
+    "explanation": "Further speed work."
+  },
+  {
+    "week": 6,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 16.0,
+    "target_pace": "6.00",
+    "notes": "Practice race nutrition strategies",
+    "explanation": "Build endurance close to race effort."
+  },
+  {
+    "week": 7,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 10.5,
+    "target_pace": "6.00",
+    "notes": "Maintain comfort",
+    "explanation": "Recovery and adaptation."
+  },
+  {
+    "week": 7,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 14.0,
+    "target_pace": "4.45",
+    "notes": "Steady effort",
+    "explanation": "Enhance threshold endurance."
+  },
+  {
+    "week": 7,
+    "day": "Thursday",
+    "type": "Easy",
+    "distance_km": 10.5,
+    "target_pace": "6.00",
+    "notes": "Recovery",
+    "explanation": "Facilitate recovery."
+  },
+  {
+    "week": 7,
+    "day": "Friday",
+    "type": "Intervals",
+    "distance_km": 5.0,
+    "target_pace": "3.45",
+    "notes": "4 x 1 km at faster pace",
+    "explanation": "Speed endurance build."
+  },
+  {
+    "week": 7,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 17.0,
+    "target_pace": "6.00",
+    "notes": "Focus on maintaining steady pace and hydration",
+    "explanation": "Peak endurance session."
+  },
+  {
+    "week": 8,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 10.6,
+    "target_pace": "6.00",
+    "notes": "Recovery run",
+    "explanation": "Deload and recover."
+  },
+  {
+    "week": 8,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 14.9,
+    "target_pace": "4.45",
+    "notes": "Maintain consistent effort",
+    "explanation": "Consolidate threshold speed."
+  },
+  {
+    "week": 8,
+    "day": "Thursday",
+    "type": "Easy",
+    "distance_km": 10.6,
+    "target_pace": "6.00",
+    "notes": "Relaxed pace for recovery",
+    "explanation": "Reduce fatigue after peak weeks."
+  },
+  {
+    "week": 8,
+    "day": "Friday",
+    "type": "Intervals",
+    "distance_km": 5.0,
+    "target_pace": "3.45",
+    "notes": "4 x 1 km repeats",
+    "explanation": "Maintain speed workouts."
+  },
+  {
+    "week": 8,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 15.0,
+    "target_pace": "6.00",
+    "notes": "Focus on consistent pacing",
+    "explanation": "Maintain endurance base."
+  },
+  {
+    "week": 9,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 11.1,
+    "target_pace": "6.00",
+    "notes": "Relaxed recovery",
+    "explanation": "Keep mileage steady."
+  },
+  {
+    "week": 9,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 15.3,
+    "target_pace": "4.45",
+    "notes": "Sustained effort",
+    "explanation": "Build capacity for race pace."
+  },
+  {
+    "week": 9,
+    "day": "Thursday",
+    "type": "Easy",
+    "distance_km": 11.1,
+    "target_pace": "6.00",
+    "notes": "Recovery run",
+    "explanation": "Support weekly load."
+  },
+  {
+    "week": 9,
+    "day": "Friday",
+    "type": "Intervals",
+    "distance_km": 5.0,
+    "target_pace": "3.40",
+    "notes": "4 x 1 km faster repeats",
+    "explanation": "Improve speed endurance."
+  },
+  {
+    "week": 9,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 18.0,
+    "target_pace": "6.00",
+    "notes": "Push endurance, hydrate well",
+    "explanation": "Maximize long run performance."
+  },
+  {
+    "week": 10,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 11.7,
+    "target_pace": "6.00",
+    "notes": "Smooth pace",
+    "explanation": "Active recovery before taper."
+  },
+  {
+    "week": 10,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 16.4,
+    "target_pace": "4.45",
+    "notes": "Maintain effort",
+    "explanation": "Sustain threshold speed."
+  },
+  {
+    "week": 10,
+    "day": "Thursday",
+    "type": "Easy",
+    "distance_km": 11.7,
+    "target_pace": "6.00",
+    "notes": "Recovery run",
+    "explanation": "Facilitate tapering."
+  },
+  {
+    "week": 10,
+    "day": "Friday",
+    "type": "Intervals",
+    "distance_km": 5.0,
+    "target_pace": "3.40",
+    "notes": "4 x 1 km repeats",
+    "explanation": "Maintain speed."
+  },
+  {
+    "week": 10,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 15.0,
+    "target_pace": "6.00",
+    "notes": "Focus on pace consistency",
+    "explanation": "Peak endurance before taper."
+  },
+  {
+    "week": 11,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 12.3,
+    "target_pace": "6.00",
+    "notes": "Relaxed effort",
+    "explanation": "Begin tapering phase."
+  },
+  {
+    "week": 11,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 17.3,
+    "target_pace": "4.45",
+    "notes": "Sustain effort",
+    "explanation": "Maintain threshold pace."
+  },
+  {
+    "week": 11,
+    "day": "Thursday",
+    "type": "Easy",
+    "distance_km": 12.3,
+    "target_pace": "6.00",
+    "notes": "Recovery run",
+    "explanation": "Reduce volume gradually."
+  },
+  {
+    "week": 11,
+    "day": "Friday",
+    "type": "Intervals",
+    "distance_km": 5.0,
+    "target_pace": "3.35",
+    "notes": "4 x 1 km faster repeats",
+    "explanation": "Sharpen speed for race."
+  },
+  {
+    "week": 11,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 14.0,
+    "target_pace": "6.00",
+    "notes": "Race simulation pace practice",
+    "explanation": "Solid endurance, freshness in taper."
+  },
+  {
+    "week": 12,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 13.0,
+    "target_pace": "6.00",
+    "notes": "Relaxed run",
+    "explanation": "Complete tapering."
+  },
+  {
+    "week": 12,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 18.4,
+    "target_pace": "4.45",
+    "notes": "Maintain effort",
+    "explanation": "Final threshold run."
+  },
+  {
+    "week": 12,
+    "day": "Thursday",
+    "type": "Easy",
+    "distance_km": 13.0,
+    "target_pace": "6.00",
+    "notes": "Light recovery",
+    "explanation": "Reduce fatigue."
+  },
+  {
+    "week": 12,
+    "day": "Friday",
+    "type": "Intervals",
+    "distance_km": 5.0,
+    "target_pace": "3.30",
+    "notes": "4 x 1 km at race pace or slightly faster",
+    "explanation": "Sharpening for race day."
+  },
+  {
+    "week": 12,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 12.0,
+    "target_pace": "6.00",
+    "notes": "Taper intensity",
+    "explanation": "Reduce volume, maintain sharpness."
+  },
+  {
+    "week": 13,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 8.0,
+    "target_pace": "6.00",
+    "notes": "Relaxed run",
+    "explanation": "Begin taper."
+  },
+  {
+    "week": 13,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 13.0,
+    "target_pace": "4.45",
+    "notes": "Maintain effort",
+    "explanation": "Reduce volume, keep intensity."
+  },
+  {
+    "week": 13,
+    "day": "Thursday",
+    "type": "Easy",
+    "distance_km": 8.0,
+    "target_pace": "6.00",
+    "notes": "Light recovery",
+    "explanation": "Reduce fatigue."
+  },
+  {
+    "week": 13,
+    "day": "Friday",
+    "type": "Intervals",
+    "distance_km": 4.0,
+    "target_pace": "3.25",
+    "notes": "3 x 1 km at race pace",
+    "explanation": "Finalize speed sharpening."
+  },
+  {
+    "week": 13,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 10.0,
+    "target_pace": "6.00",
+    "notes": "Keep relaxed",
+    "explanation": "Taper with reduced volume."
+  },
+  {
+    "week": 14,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 6.0,
+    "target_pace": "6.00",
+    "notes": "Gentle run",
+    "explanation": "Final easing before taper."
+  },
+  {
+    "week": 14,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 10.0,
+    "target_pace": "4.45",
+    "notes": "Steady effort",
+    "explanation": "Maintain sharpness."
+  },
+  {
+    "week": 14,
+    "day": "Thursday",
+    "type": "Easy",
+    "distance_km": 6.0,
+    "target_pace": "6.00",
+    "notes": "Light recovery",
+    "explanation": "Reduce fatigue."
+  },
+  {
+    "week": 14,
+    "day": "Friday",
+    "type": "Intervals",
+    "distance_km": 4.0,
+    "target_pace": "3.20",
+    "notes": "3 x 1 km at race pace or faster",
+    "explanation": "Final speed tune-up."
+  },
+  {
+    "week": 14,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 8.0,
+    "target_pace": "6.00",
+    "notes": "Relaxed, easy effort",
+    "explanation": "Maintain fitness with minimal fatigue."
+  },
+  {
+    "week": 15,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 4.0,
+    "target_pace": "6.00",
+    "notes": "Short, relaxed run",
+    "explanation": "Begin very light taper."
+  },
+  {
+    "week": 15,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 8.0,
+    "target_pace": "4.45",
+    "notes": "Maintain effort, no fatigue",
+    "explanation": "Sharpen without overexertion."
+  },
+  {
+    "week": 15,
+    "day": "Thursday",
+    "type": "Easy",
+    "distance_km": 4.0,
+    "target_pace": "6.00",
+    "notes": "Relaxed run",
+    "explanation": "Reduce fatigue further."
+  },
+  {
+    "week": 15,
+    "day": "Friday",
+    "type": "Rest",
+    "distance_km": 0,
+    "target_pace": null,
+    "notes": "Complete rest or very light cross-training",
+    "explanation": "Taper for race day."
+  },
+  {
+    "week": 15,
+    "day": "Saturday",
+    "type": "Rest",
+    "distance_km": 0,
+    "target_pace": null,
+    "notes": "Full rest",
+    "explanation": "Allow recovery before race."
+  },
+  {
+    "week": 16,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 3.0,
+    "target_pace": "6.00",
+    "notes": "Gentle run",
+    "explanation": "Stay loose before race."
+  },
+  {
+    "week": 16,
+    "day": "Wednesday",
+    "type": "Easy",
+    "distance_km": 3.0,
+    "target_pace": "6.00",
+    "notes": "Relaxed pace",
+    "explanation": "Maintain freshness."
+  },
+  {
+    "week": 16,
+    "day": "Thursday",
+    "type": "Rest",
+    "distance_km": 0,
+    "target_pace": null,
+    "notes": "Complete rest",
+    "explanation": "Prepare mentally and physically."
+  },
+  {
+    "week": 16,
+    "day": "Friday",
+    "type": "Rest",
+    "distance_km": 0,
+    "target_pace": null,
+    "notes": "Full rest",
+    "explanation": "Race day tomorrow."
+  },
+  {
+    "week": 16,
+    "day": "Saturday",
+    "type": "Race Day",
+    "distance_km": 21.0975,
+    "target_pace": "4.58",
+    "notes": "Aim for your target pace of ~4:50 min/km",
+    "explanation": "Race day to achieve goal time of 1:45."
+  }
+]

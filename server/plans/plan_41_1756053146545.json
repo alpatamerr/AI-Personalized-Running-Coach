@@ -1,0 +1,290 @@
+[
+  {
+    "week": 1,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 6.0,
+    "target_pace": "6.00",
+    "notes": "Focus on relaxed running, maintain comfortable pace.",
+    "explanation": "Establish base mileage and running rhythm."
+  },
+  {
+    "week": 1,
+    "day": "Wednesday",
+    "type": "Interval",
+    "distance_km": 4.0,
+    "target_pace": "5.00",
+    "notes": "Alternate 400m fast / 400m recovery.",
+    "explanation": "Build speed and aerobic capacity."
+  },
+  {
+    "week": 1,
+    "day": "Friday",
+    "type": "Easy",
+    "distance_km": 6.0,
+    "target_pace": "6.00",
+    "notes": "Maintain relaxed pace, focus on form.",
+    "explanation": "Active recovery from intervals."
+  },
+  {
+    "week": 1,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 8.0,
+    "target_pace": "6.30",
+    "notes": "Run at an easy, steady pace.",
+    "explanation": "Build endurance gradually."
+  },
+  {
+    "week": 2,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 6.6,
+    "target_pace": "6.00",
+    "notes": "Keep relaxed, focus on breathing.",
+    "explanation": "Increase weekly mileage safely."
+  },
+  {
+    "week": 2,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 4.0,
+    "target_pace": "5.15",
+    "notes": "Slightly faster effort, steady pace.",
+    "explanation": "Improve lactate threshold."
+  },
+  {
+    "week": 2,
+    "day": "Friday",
+    "type": "Easy",
+    "distance_km": 6.6,
+    "target_pace": "6.00",
+    "notes": "Maintain relaxed run.",
+    "explanation": "Active recovery, prevent overtraining."
+  },
+  {
+    "week": 2,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 8.8,
+    "target_pace": "6.30",
+    "notes": "Steady pace, focused on endurance.",
+    "explanation": "Enhance stamina gradually."
+  },
+  {
+    "week": 3,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 7.3,
+    "target_pace": "6.00",
+    "notes": "Relaxed effort, focus on smooth running.",
+    "explanation": "Build weekly volume safely."
+  },
+  {
+    "week": 3,
+    "day": "Wednesday",
+    "type": "Intervals",
+    "distance_km": 4.5,
+    "target_pace": "4.50",
+    "notes": "Alternate 400m fast / 400m recovery.",
+    "explanation": "Increase speed endurance."
+  },
+  {
+    "week": 3,
+    "day": "Friday",
+    "type": "Easy",
+    "distance_km": 7.3,
+    "target_pace": "6.00",
+    "notes": "Keep form relaxed, focus on breathing.",
+    "explanation": "Recovery and consistency."
+  },
+  {
+    "week": 3,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 9.7,
+    "target_pace": "6.30",
+    "notes": "Maintain steady pace, hydrate well.",
+    "explanation": "Enhance endurance capacity."
+  },
+  {
+    "week": 4,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 7.5,
+    "target_pace": "6.00",
+    "notes": "Relaxed effort, focus on form.",
+    "explanation": "Weekly volume increase with recovery."
+  },
+  {
+    "week": 4,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 4.0,
+    "target_pace": "5.10",
+    "notes": "Steady moderate effort.",
+    "explanation": "Build threshold stamina."
+  },
+  {
+    "week": 4,
+    "day": "Friday",
+    "type": "Easy",
+    "distance_km": 7.5,
+    "target_pace": "6.00",
+    "notes": "Relaxed, smooth running.",
+    "explanation": "Active recovery for adaptation."
+  },
+  {
+    "week": 4,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 10.0,
+    "target_pace": "6.30",
+    "notes": "Focus on endurance, hydrate well.",
+    "explanation": "Peak of the cycle's build phase."
+  },
+  {
+    "week": 5,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 7.7,
+    "target_pace": "6.00",
+    "notes": "Keep relaxed, focus on breathing.",
+    "explanation": "Start of deload phase, maintain volume."
+  },
+  {
+    "week": 5,
+    "day": "Wednesday",
+    "type": "Intervals",
+    "distance_km": 4.0,
+    "target_pace": "4.50",
+    "notes": "Shorter, faster sprints.",
+    "explanation": "Maintain speed but reduce volume."
+  },
+  {
+    "week": 5,
+    "day": "Friday",
+    "type": "Easy",
+    "distance_km": 7.7,
+    "target_pace": "6.00",
+    "notes": "Relaxed run, focus on recovery.",
+    "explanation": "Prepare for recovery week."
+  },
+  {
+    "week": 5,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 10.0,
+    "target_pace": "6.30",
+    "notes": "Maintain steady pace, hydrate.",
+    "explanation": "Complete peak build phase."
+  },
+  {
+    "week": 6,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 6.5,
+    "target_pace": "6.00",
+    "notes": "Relaxed, focus on form.",
+    "explanation": "Deload week, reduce weekly volume."
+  },
+  {
+    "week": 6,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 3.0,
+    "target_pace": "5.00",
+    "notes": "Less volume, maintain intensity.",
+    "explanation": "Active recovery with quality work."
+  },
+  {
+    "week": 6,
+    "day": "Friday",
+    "type": "Easy",
+    "distance_km": 6.5,
+    "target_pace": "6.00",
+    "notes": "Relax, focus on smooth pace.",
+    "explanation": "Recovery, consolidation phase."
+  },
+  {
+    "week": 6,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 9.0,
+    "target_pace": "6.30",
+    "notes": "Maintain endurance, hydrate.",
+    "explanation": "End of deload, recover for next cycle."
+  },
+  {
+    "week": 7,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 7.0,
+    "target_pace": "6.00",
+    "notes": "Relaxed, focus on recovery.",
+    "explanation": "Begin new build phase."
+  },
+  {
+    "week": 7,
+    "day": "Wednesday",
+    "type": "Intervals",
+    "distance_km": 4.5,
+    "target_pace": "4.45",
+    "notes": "Faster intervals, good effort.",
+    "explanation": "Build speed endurance."
+  },
+  {
+    "week": 7,
+    "day": "Friday",
+    "type": "Easy",
+    "distance_km": 7.0,
+    "target_pace": "6.00",
+    "notes": "Relax and recover.",
+    "explanation": "Active recovery to facilitate adaptation."
+  },
+  {
+    "week": 7,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 11.0,
+    "target_pace": "6.30",
+    "notes": "Focus on endurance, hydrate.",
+    "explanation": "Build endurance toward target race pace."
+  },
+  {
+    "week": 8,
+    "day": "Tuesday",
+    "type": "Easy",
+    "distance_km": 7.7,
+    "target_pace": "6.00",
+    "notes": "Relax, focus on smooth running.",
+    "explanation": "Increase weekly mileage."
+  },
+  {
+    "week": 8,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 4.0,
+    "target_pace": "5.10",
+    "notes": "Steady effort, build threshold.",
+    "explanation": "Raise lactate threshold for speed."
+  },
+  {
+    "week": 8,
+    "day": "Friday",
+    "type": "Easy",
+    "distance_km": 7.7,
+    "target_pace": "6.00",
+    "notes": "Relaxed pace, focus on consistency.",
+    "explanation": "Recovery and consolidation."
+  },
+  {
+    "week": 8,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 11.0,
+    "target_pace": "6.30",
+    "notes": "Steady endurance work.",
+    "explanation": "Peak mileage of build phase."
+  }
+]

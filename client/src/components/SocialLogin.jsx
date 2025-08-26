@@ -22,13 +22,6 @@ const SocialLogin = () => {
       </div>
       
       <div className="social-buttons">
-        <button 
-          className="social-button google"
-          onClick={handleGoogleLogin}
-        >
-          <img src={GoogleIcon} alt="Google" />
-          Continue with Google
-        </button>
         <button
           className="social-button strava"
           onClick={handleStravaLogin}

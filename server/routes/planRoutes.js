@@ -229,6 +229,11 @@ const pool = require('../config/db');
 router.post('/generate-ai', planController.generateTrainingPlan);
 router.get('/dashboard-stats', planController.getDashboardStats);
 router.get('/get-plan', planController.getTrainingPlan);
+
+// Save run performance for a specific week/day
+router.post('/save-performance', planController.saveRunPerformance);
+// Get run performance for a specific week/day
+router.get('/get-performance', planController.getRunPerformance);
 // Dynamically get a Strava/demo user ID for frontend
 router.get('/strava-user-id', async (req, res) => {
   try {
@@ -259,10 +264,11 @@ router.get('/recent-activities', async (req, res) => {
     }
     const { rows } = await pool.query(
       `SELECT run_date as date, distance_km as distance, duration_minutes, pace
-       FROM run_data WHERE user_id = $1
-       ORDER BY run_date DESC LIMIT 10`,
+       FROM training_records WHERE user_id = $1
+       ORDER BY run_date DESC`,
       [userId]
     );
+    console.log('Recent activities:', rows);
     const activities = rows.map(row => ({
       date: row.date,
       distance: Number(row.distance).toFixed(2),

@@ -5,6 +5,8 @@ import '../styles/DashboardPage.css';
 import '../styles/GeneratePlanButton.css';
 import GeneratePlanButton from '../components/GeneratePlanButton';
 
+import { getStravaUserId, getDashboardStats, getRecentActivities } from '../api/dashboardAPI';
+
 const DashboardPage = () => {
   const [userId, setUserId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,9 +26,14 @@ const DashboardPage = () => {
     setUserId(storedUserId);
 
     // Dynamically get the strava demo user id from backend
-    fetch('/api/plans/strava-user-id')
-      .then(res => res.json())
-      .then(data => setStravaUserId(data.userId))
+    getStravaUserId()
+      .then(data => {
+        if (data.success) {
+          setStravaUserId(data.data.userId);
+        } else {
+          setStravaUserId(null);
+        }
+      })
       .catch(() => setStravaUserId(null));
   }, [navigate]);
 
@@ -51,18 +58,28 @@ const DashboardPage = () => {
 
   // Fetch demo running stats and activities (ALWAYS for strava user)
   useEffect(() => {
-    if (!stravaUserId) return;
+    if (!userId) return;
 
-    fetch(`/api/plans/dashboard-stats?userId=${stravaUserId}`)
-      .then(res => res.json())
-      .then(data => setWeeklyStats(data))
+    getDashboardStats(userId)
+      .then(data => {
+        if (data.success) {
+          setWeeklyStats(data.data);
+        } else {
+          setWeeklyStats(null);
+        }
+      })
       .catch(() => setWeeklyStats(null));
 
-    fetch(`/api/plans/recent-activities?userId=${stravaUserId}`)
-      .then(res => res.json())
-      .then(data => setRecentActivities(data.activities || []))
+    getRecentActivities(userId)
+      .then(data => {
+        if (data.success) {
+          setRecentActivities(data.data);
+        } else {
+          setRecentActivities([]);
+        }
+      })
       .catch(() => setRecentActivities([]));
-  }, [stravaUserId]);
+  }, [userId]);
 
   if (isLoading) {
     return (
@@ -188,7 +205,6 @@ const DashboardPage = () => {
                   </div>
                 </div>
               ))}
-              <button className="view-all-btn">View All Activities</button>
             </div>
           ) : (
             <div className="coming-soon">

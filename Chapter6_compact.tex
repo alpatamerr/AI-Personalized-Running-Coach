@@ -1,0 +1,105 @@
+% Chapter 6 — Implementation (Compact)
+\chapter{Implementation}
+
+\section{Development Process}
+\subsection{Approach and Stack}
+React (Vite) SPA + Express API + PostgreSQL. Features were delivered as vertical slices (wizard, plans, calendar, logging, Strava). We maintained stable JSON contracts, small stateful React components, and domain logic in Express controllers/utilities. Stack: React 18, Vite, React Router, date-fns; Express; PostgreSQL; Python (scikit-learn KMeans); OpenAI Responses API; Strava OAuth/API. Config is centralised in \verb|client/src/config.js| and environment variables; schema in \verb|server/db/schema.sql|.
+
+\section{Feature Implementations}
+\subsection{User Authentication}
+\textbf{Purpose}: Sign-in/registration and secure API access; Strava OAuth linking.
+\newline
+\textbf{Implementation}: Routes in \verb|server/routes/authRoutes.js|, registered in \verb|server/app.js|. Tokens persisted for Strava in \verb|strava_tokens|; client stores \verb|userId| and bearer token in \verb|localStorage|.
+
+\subsection{Goal Management (Training Wizard)}
+\textbf{Purpose}: Capture distance, target time, preferred days, and weekly volume.
+\newline
+\textbf{Implementation}: The wizard in \verb|client/src/pages/TrainingPlanCalendarPage.jsx| advances over five steps: distance → target time → days → weekly km → confirm. Inputs are accumulated in component state; only the final step saves via \verb|goalsAPI| to \verb|/api/goals| (table \verb|goals|). The latest goal is treated as active.
+
+\subsection{AI-Powered Training Plan Generation}
+\textbf{Purpose}: Produce a 16-week plan with (week, day, type, distance, target pace, notes, explanation).
+\newline
+\textbf{Controller flow} (\verb|server/controllers/planController.js|):
+\begin{enumerate}
+  \item Load the latest goal and recent runs.
+  \item If a prior plan exists, annotate the last ten runs with KMeans clusters (\verb|server/utils/kmeans_predict.js| + \verb|server/utils/cluster_info.js|).
+  \item Build a strict JSON-only prompt and call OpenAI (Responses API).
+  \item Persist a row in \verb|training_plans| and daily rows in \verb|plan_details|; return \verb|plan.details| to the client.
+\end{enumerate}
+
+\textbf{Clustering (offline → online)}:
+\begin{itemize}
+  \item Offline (\verb|ml/clustering.py|): fit \verb|KMeans(n_clusters=10)| on \{distance\_km, duration\_minutes, pace, average\_cadence, average\_heartrate\}; export centroids with \verb|ml/export_kmeans_to_json.py|.
+  \item Online (\verb|server/utils/kmeans_predict.js|): load centroids JSON; assign a run to the nearest centroid (Euclidean). Labels are used only to contextualise the GPT prompt.
+\end{itemize}
+
+\textbf{Prompt construction}: Two templates:
+\begin{itemize}
+  \item \verb|buildSystemPrompt| — baseline goal + preferred days + weekly km + average easy pace.
+  \item \verb|buildSystemPromptWithRecentRuns| — embeds the last ten runs (optionally with cluster metadata) to condition the plan.
+\end{itemize}
+Both instruct the model to return raw JSON only and enforce rules (3+1 microcycle, ≤10\% weekly increase, weekend long run).
+
+\subsection{Plan Calendar and Weekly View}
+\textbf{Purpose}: Visualise by week, navigate weeks, and show per-run details.
+\newline
+\textbf{Implementation}: \verb|TrainingPlanCalendarPage.jsx| renders a Mon–Sun grid using date-fns. Each cell shows type, distance, pace, with expandable notes and explanation. A fixed overlay with a centered GIF indicates loading during plan generation/updates.
+
+\subsection{Performance Logging}
+\textbf{Purpose}: Store actual workout results to compare planned vs performed.
+\newline
+\textbf{Implementation}: Client calls \verb|POST /api/plans/save-performance| and \verb|GET /api/plans/get-performance| (helpers in \verb|client/src/api/performanceAPI.js|). Pace is computed client-side from distance and duration and rendered read-only. Server resolves a concrete \verb|run_date| from (week, day) using the plan’s \verb|start_date| and upserts into \verb|training_records| keyed by (\verb|user_id|, \verb|run_date|, \verb|record_type='run'|).
+
+\subsection{Strava Integration}
+\textbf{Purpose}: Import and normalise activities; provide dashboard summaries.
+\newline
+\textbf{Implementation}: \verb|server/controllers/stravaController.js| manages OAuth token storage/refresh (\verb|strava_tokens|) and ingestion into \verb|training_records| (heart rate cast to integer). Dashboard endpoints (\verb|/api/plans/strava-user-id|, \verb|/api/plans/dashboard-stats|, \verb|/api/plans/recent-activities|) are consumed via \verb|client/src/api/dashboardAPI.js|.
+
+\section{Technologies and Tools (Concise)}
+Frontend: React/Vite/Router/date-fns. Backend: Express with modular routers/controllers. Database: PostgreSQL (users, goals, training\_plans, plan\_details, strava\_tokens, training\_records). ML: Python KMeans exported to JSON and consumed in Node. Third-party: Strava OAuth/API; OpenAI Responses API.
+
+\section{Key Code Examples (Abbreviated)}
+\subsection{Client trigger for plan generation}
+\begin{lstlisting}[language=JavaScript]
+const handleWizardComplete = async (answers) => {
+  setLoading(true);
+  const res = await fetch('/api/plans/generate-ai', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json',
+               'Authorization': `Bearer ${localStorage.getItem('token')}` },
+    credentials: 'include',
+    body: JSON.stringify({ userId, ...answers })
+  });
+  const data = await res.json();
+  setPlan(data.plan.details || []);
+  setLoading(false);
+};
+\end{lstlisting}
+
+\subsection{Offline KMeans training (core lines)}
+\begin{lstlisting}[language=Python]
+df = pd.read_sql(SQL, conn).dropna()
+kmeans = KMeans(n_clusters=10, random_state=42)
+df['cluster'] = kmeans.fit_predict(df)
+json.dump({
+  'n_clusters': int(kmeans.n_clusters),
+  'feature_names': FEATURES,
+  'centroids': kmeans.cluster_centers_.tolist()
+}, open('kmeans_model.json','w'))
+\end{lstlisting}
+
+\subsection{Prompt with clustered recent runs (core lines)}
+\begin{lstlisting}[language=JavaScript]
+const runs = await getUserRecentRunsFromTrainingRecords(userId, 10)
+const kmeans = loadKMeansModel(kmeansPath)
+const recentRuns = runs.map(r => ({ ...r,
+  cluster: kmeans.predict(r),
+  clusterInfo: clusterInfo[kmeans.predict(r)] || null
+}))
+const systemPrompt = buildSystemPromptWithRecentRuns({ username,
+  goalDistance: goal.distance, goalTime: goal.target_time,
+  runDays, weeklyDistance, recentRuns })
+\end{lstlisting}
+
+\section{Summary}
+This chapter summarised how the SPA, API, and database collaborate to capture goals, generate AI-driven plans (with KMeans-informed context), present a weekly calendar, log performance, and integrate Strava. The focus remained on concise, essential flows and the key points of KMeans usage, prompt construction, and persistence.

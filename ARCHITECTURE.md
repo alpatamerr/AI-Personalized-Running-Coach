@@ -134,92 +134,98 @@ Indexes (highlights)
 #### ER Diagram (Live Schema)
 ```mermaid
 erDiagram
-    users ||--o{ goals : has
-    users ||--o{ training_plans : has
-    training_plans ||--o{ plan_details : has
-    users ||--o{ run_data : records
-    users ||--o{ training_records : logs
-    strava_tokens }o..o{ users : "no enforced FK"
+  USERS ||--o{ GOALS : has
+  USERS ||--o{ TRAINING_PLANS : has
+  TRAINING_PLANS ||--o{ PLAN_DETAILS : has
+  USERS ||--o{ RUN_DATA : records
+  USERS ||--o{ TRAINING_RECORDS : logs
+  STRAVA_TOKENS }o..o{ USERS : "no enforced FK"
 
-    users {
-        int id
-        string username
-        string email
-        string password
-        datetime created_at
-        datetime updated_at
-        boolean is_strava_user
-    }
-    goals {
-        int id
-        int user_id
-        string distance
-        string target_time
-        string days
-        int weekly_km
-        datetime created_at
-        datetime updated_at
-    }
-    training_plans {
-        int id
-        int user_id
-        string goal
-        date start_date
-        date end_date
-        datetime created_at
-    }
-    plan_details {
-        int id
-        int training_plan_id
-        int week
-        string day
-        string type
-        float distance
-        string target_pace
-        string note
-        string explanation
-        datetime created_at
-    }
-    run_data {
-        int id
-        int user_id
-        float distance_km
-        float duration_minutes
-        float pace
-        float average_cadence
-        boolean has_heartrate
-        float average_heartrate
-        float max_heartrate
-        date run_date
-        int activity_id
-        string sport_type
-        datetime created_at
-    }
-    training_records {
-        int id
-        int user_id
-        string record_type
-        float distance_km
-        float duration_minutes
-        float pace
-        int average_cadence
-        int average_heartrate
-        date run_date
-        string race_name
-        string race_location
-        date plan_week_start_date
-        string day_of_week
-        date race_date
-        datetime created_at
-    }
-    strava_tokens {
-        int athlete_id
-        string access_token
-        string refresh_token
-        int expires_at
-        datetime created_at
-        datetime updated_at
-    }
+  USERS {
+    BIGINT id PK
+    VARCHAR username
+    VARCHAR email UNIQUE
+    VARCHAR password
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+    BOOLEAN is_strava_user
+  }
+
+  GOALS {
+    BIGINT id PK
+    BIGINT user_id FK
+    VARCHAR distance
+    VARCHAR target_time
+    VARCHAR days
+    INTEGER weekly_km
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  TRAINING_PLANS {
+    BIGINT id PK
+    BIGINT user_id FK
+    VARCHAR goal
+    DATE start_date
+    DATE end_date
+    TIMESTAMP created_at
+  }
+
+  PLAN_DETAILS {
+    BIGINT id PK
+    BIGINT training_plan_id FK
+    INTEGER week
+    VARCHAR day
+    VARCHAR type
+    NUMERIC distance
+    TEXT target_pace
+    TEXT note
+    TEXT explanation
+    TIMESTAMP created_at
+  }
+
+  RUN_DATA {
+    BIGINT id PK
+    BIGINT user_id FK
+    NUMERIC distance_km
+    NUMERIC duration_minutes
+    DOUBLE pace
+    DOUBLE average_cadence
+    BOOLEAN has_heartrate
+    DOUBLE average_heartrate
+    DOUBLE max_heartrate
+    DATE run_date
+    BIGINT activity_id UNIQUE
+    TEXT sport_type
+    TIMESTAMP created_at
+  }
+
+  TRAINING_RECORDS {
+    BIGINT id PK
+    BIGINT user_id FK
+    VARCHAR record_type
+    NUMERIC distance_km
+    NUMERIC duration_minutes
+    NUMERIC pace
+    INTEGER average_cadence
+    INTEGER average_heartrate
+    DATE run_date
+    VARCHAR race_name
+    VARCHAR race_location
+    DATE plan_week_start_date
+    VARCHAR day_of_week
+    DATE race_date
+    TIMESTAMP created_at
+  }
+
+  STRAVA_TOKENS {
+    BIGINT athlete_id PK
+    VARCHAR access_token
+    VARCHAR refresh_token
+    INTEGER expires_at
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
 ```
 
 ---
