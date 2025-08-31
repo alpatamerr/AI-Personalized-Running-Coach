@@ -1,0 +1,551 @@
+[
+  {
+    "week": 1,
+    "day": "Monday",
+    "type": "Easy",
+    "distance_km": 5.0,
+    "target_pace": "6.48",
+    "notes": "Focus on comfortable pace",
+    "explanation": "Establish an easy baseline to improve endurance."
+  },
+  {
+    "week": 1,
+    "day": "Wednesday",
+    "type": "Intervals",
+    "distance_km": 4.0,
+    "target_pace": "4.59",
+    "notes": "Improve speed with 4x800m repeats",
+    "explanation": "Speed work for race pace development."
+  },
+  {
+    "week": 1,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 8.0,
+    "target_pace": "6.48",
+    "notes": "Steady pace, focus on endurance",
+    "explanation": "Build endurance for race day."
+  },
+  {
+    "week": 1,
+    "day": "Sunday",
+    "type": "Easy",
+    "distance_km": 5.0,
+    "target_pace": "6.48",
+    "notes": "Recovery run",
+    "explanation": "Active recovery for adaptation."
+  },
+  {
+    "week": 2,
+    "day": "Monday",
+    "type": "Tempo",
+    "distance_km": 5.0,
+    "target_pace": "5.50",
+    "notes": "Slightly faster than easy run",
+    "explanation": "Improve aerobic capacity."
+  },
+  {
+    "week": 2,
+    "day": "Wednesday",
+    "type": "Intervals",
+    "distance_km": 4.0,
+    "target_pace": "4.55",
+    "notes": "4x800m repeats at faster pace",
+    "explanation": "Enhance speed endurance."
+  },
+  {
+    "week": 2,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 8.5,
+    "target_pace": "6.48",
+    "notes": "Maintain steady effort",
+    "explanation": "Gradual increase in endurance."
+  },
+  {
+    "week": 2,
+    "day": "Sunday",
+    "type": "Easy",
+    "distance_km": 5.0,
+    "target_pace": "6.48",
+    "notes": "Recovery",
+    "explanation": "Aid recovery and adaptation."
+  },
+  {
+    "week": 3,
+    "day": "Monday",
+    "type": "Easy",
+    "distance_km": 5.0,
+    "target_pace": "6.48",
+    "notes": "Maintain comfortable pace",
+    "explanation": "Build a solid aerobic base."
+  },
+  {
+    "week": 3,
+    "day": "Wednesday",
+    "type": "Fartlek",
+    "distance_km": 4.0,
+    "target_pace": "4.52",
+    "notes": "Alternate fast and slow segments",
+    "explanation": "Improve speed and recovery."
+  },
+  {
+    "week": 3,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 9.0,
+    "target_pace": "6.48",
+    "notes": "Maintain steady effort",
+    "explanation": "Increase endurance further."
+  },
+  {
+    "week": 3,
+    "day": "Sunday",
+    "type": "Rest",
+    "distance_km": 0.0,
+    "target_pace": null,
+    "notes": "Complete rest day",
+    "explanation": "Allow recovery."
+  },
+  {
+    "week": 4,
+    "day": "Monday",
+    "type": "Tempo",
+    "distance_km": 5.0,
+    "target_pace": "5.45",
+    "notes": "Sustain faster pace",
+    "explanation": "Increase aerobic threshold."
+  },
+  {
+    "week": 4,
+    "day": "Wednesday",
+    "type": "Intervals",
+    "distance_km": 4.0,
+    "target_pace": "4.52",
+    "notes": "6x800m at faster pace",
+    "explanation": "Speed endurance focus."
+  },
+  {
+    "week": 4,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 9.5,
+    "target_pace": "6.48",
+    "notes": "Maintain steady effort",
+    "explanation": "Further endurance building."
+  },
+  {
+    "week": 4,
+    "day": "Sunday",
+    "type": "Easy",
+    "distance_km": 4.5,
+    "target_pace": "6.48",
+    "notes": "Recovery run",
+    "explanation": "Facilitate adaptation."
+  },
+  {
+    "week": 5,
+    "day": "Monday",
+    "type": "Easy",
+    "distance_km": 5.0,
+    "target_pace": "6.48",
+    "notes": "Base maintenance",
+    "explanation": "Keep aerobic base healthy."
+  },
+  {
+    "week": 5,
+    "day": "Wednesday",
+    "type": "Fartlek",
+    "distance_km": 4.0,
+    "target_pace": "4.50",
+    "notes": "Vary your pace",
+    "explanation": "Enhance endurance and speed."
+  },
+  {
+    "week": 5,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 10.0,
+    "target_pace": "6.48",
+    "notes": "Race pace simulation",
+    "explanation": "Prepare for race day."
+  },
+  {
+    "week": 5,
+    "day": "Sunday",
+    "type": "Rest",
+    "distance_km": 0.0,
+    "target_pace": null,
+    "notes": "Rest for recovery",
+    "explanation": "Allow proper recuperation."
+  },
+  {
+    "week": 6,
+    "day": "Monday",
+    "type": "Tempo",
+    "distance_km": 5.0,
+    "target_pace": "5.40",
+    "notes": "Push pace slightly",
+    "explanation": "Improve race pace capacity."
+  },
+  {
+    "week": 6,
+    "day": "Wednesday",
+    "type": "Intervals",
+    "distance_km": 4.0,
+    "target_pace": "4.50",
+    "notes": "7x800m at faster pace",
+    "explanation": "Build speed endurance."
+  },
+  {
+    "week": 6,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 10.5,
+    "target_pace": "6.48",
+    "notes": "Steady effort",
+    "explanation": "Further endurance improvement."
+  },
+  {
+    "week": 6,
+    "day": "Sunday",
+    "type": "Easy",
+    "distance_km": 4.5,
+    "target_pace": "6.48",
+    "notes": "Active recovery",
+    "explanation": "Promote recovery."
+  },
+  {
+    "week": 7,
+    "day": "Monday",
+    "type": "Easy",
+    "distance_km": 5.0,
+    "target_pace": "6.48",
+    "notes": "Maintain base",
+    "explanation": "Consistent aerobic base."
+  },
+  {
+    "week": 7,
+    "day": "Wednesday",
+    "type": "Fartlek",
+    "distance_km": 4.0,
+    "target_pace": "4.45",
+    "notes": "Vary speed",
+    "explanation": "Build both endurance and speed."
+  },
+  {
+    "week": 7,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 11.0,
+    "target_pace": "6.48",
+    "notes": "Focus on steady effort",
+    "explanation": "Extend endurance for race readiness."
+  },
+  {
+    "week": 7,
+    "day": "Sunday",
+    "type": "Rest",
+    "distance_km": 0.0,
+    "target_pace": null,
+    "notes": "Complete rest",
+    "explanation": "Ensure full recovery."
+  },
+  {
+    "week": 8,
+    "day": "Monday",
+    "type": "Tempo",
+    "distance_km": 5.0,
+    "target_pace": "5.35",
+    "notes": "Slightly faster tempo",
+    "explanation": "Increase aerobic capacity."
+  },
+  {
+    "week": 8,
+    "day": "Wednesday",
+    "type": "Intervals",
+    "distance_km": 4.0,
+    "target_pace": "4.45",
+    "notes": "8x800m",
+    "explanation": "Speed endurance focus."
+  },
+  {
+    "week": 8,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 11.5,
+    "target_pace": "6.48",
+    "notes": "Maintain steady effort",
+    "explanation": "Build endurance close to race distance."
+  },
+  {
+    "week": 8,
+    "day": "Sunday",
+    "type": "Easy",
+    "distance_km": 4.5,
+    "target_pace": "6.48",
+    "notes": "Active recovery",
+    "explanation": "Aid adaptation."
+  },
+  {
+    "week": 9,
+    "day": "Monday",
+    "type": "Easy",
+    "distance_km": 5.0,
+    "target_pace": "6.48",
+    "notes": "Base maintenance",
+    "explanation": "Hold endurance base."
+  },
+  {
+    "week": 9,
+    "day": "Wednesday",
+    "type": "Fartlek",
+    "distance_km": 4.0,
+    "target_pace": "4.43",
+    "notes": "Varying intensity",
+    "explanation": "Enhance speed and endurance."
+  },
+  {
+    "week": 9,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 12.0,
+    "target_pace": "6.48",
+    "notes": "Race simulation",
+    "explanation": "Prepare for race pace and distance."
+  },
+  {
+    "week": 9,
+    "day": "Sunday",
+    "type": "Rest",
+    "distance_km": 0.0,
+    "target_pace": null,
+    "notes": "Rest for adaptation",
+    "explanation": "Optimal recovery."
+  },
+  {
+    "week": 10,
+    "day": "Monday",
+    "type": "Tempo",
+    "distance_km": 5.0,
+    "target_pace": "5.30",
+    "notes": "Push pace further",
+    "explanation": "Increase race pace capacity."
+  },
+  {
+    "week": 10,
+    "day": "Wednesday",
+    "type": "Intervals",
+    "distance_km": 4.0,
+    "target_pace": "4.43",
+    "notes": "9x800m at faster pace",
+    "explanation": "Enhance speed endurance."
+  },
+  {
+    "week": 10,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 12.5,
+    "target_pace": "6.48",
+    "notes": "Steady effort, race prep",
+    "explanation": "Close to race distance."
+  },
+  {
+    "week": 10,
+    "day": "Sunday",
+    "type": "Easy",
+    "distance_km": 4.5,
+    "target_pace": "6.48",
+    "notes": "Active recovery",
+    "explanation": "Facilitate recovery."
+  },
+  {
+    "week": 11,
+    "day": "Monday",
+    "type": "Easy",
+    "distance_km": 5.0,
+    "target_pace": "6.48",
+    "notes": "Maintain base",
+    "explanation": "Keep endurance base steady."
+  },
+  {
+    "week": 11,
+    "day": "Wednesday",
+    "type": "Fartlek",
+    "distance_km": 4.0,
+    "target_pace": "4.40",
+    "notes": "Vary pace",
+    "explanation": "Combine speed and endurance training."
+  },
+  {
+    "week": 11,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 13.0,
+    "target_pace": "6.48",
+    "notes": "Simulate race conditions",
+    "explanation": "Prepare mentally and physically."
+  },
+  {
+    "week": 11,
+    "day": "Sunday",
+    "type": "Rest",
+    "distance_km": 0.0,
+    "target_pace": null,
+    "notes": "Full rest",
+    "explanation": "Rest and recover."
+  },
+  {
+    "week": 12,
+    "day": "Monday",
+    "type": "Tempo",
+    "distance_km": 5.0,
+    "target_pace": "5.25",
+    "notes": "Near race pace",
+    "explanation": "Peak aerobic capacity."
+  },
+  {
+    "week": 12,
+    "day": "Wednesday",
+    "type": "Intervals",
+    "distance_km": 4.0,
+    "target_pace": "4.40",
+    "notes": "10x800m at faster pace",
+    "explanation": "Maximize speed endurance."
+  },
+  {
+    "week": 12,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 13.0,
+    "target_pace": "6.48",
+    "notes": "Final long run before taper",
+    "explanation": "Solidify endurance."
+  },
+  {
+    "week": 12,
+    "day": "Sunday",
+    "type": "Easy",
+    "distance_km": 4.5,
+    "target_pace": "6.48",
+    "notes": "Active recovery",
+    "explanation": "Prepare for taper."
+  },
+  {
+    "week": 13,
+    "day": "Monday",
+    "type": "Easy",
+    "distance_km": 4.5,
+    "target_pace": "6.48",
+    "notes": "Recovery & maintenance",
+    "explanation": "Reduce fatigue."
+  },
+  {
+    "week": 13,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 4.0,
+    "target_pace": "5.20",
+    "notes": "Race pace rehearsal",
+    "explanation": "Fine-tune race pace."
+  },
+  {
+    "week": 13,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 8.0,
+    "target_pace": "6.48",
+    "notes": "Taper begins",
+    "explanation": "Reduce volume for freshness."
+  },
+  {
+    "week": 13,
+    "day": "Sunday",
+    "type": "Rest",
+    "distance_km": 0.0,
+    "target_pace": null,
+    "notes": "Full rest",
+    "explanation": "Ensure full recovery."
+  },
+  {
+    "week": 14,
+    "day": "Monday",
+    "type": "Easy",
+    "distance_km": 4.0,
+    "target_pace": "6.48",
+    "notes": "Light run",
+    "explanation": "Stay active without fatigue."
+  },
+  {
+    "week": 14,
+    "day": "Wednesday",
+    "type": "Fartlek",
+    "distance_km": 3.0,
+    "target_pace": "4.35",
+    "notes": "Shorter, faster segments",
+    "explanation": "Boost confidence."
+  },
+  {
+    "week": 14,
+    "day": "Saturday",
+    "type": "Long Run",
+    "distance_km": 6.0,
+    "target_pace": "6.48",
+    "notes": "Very light",
+    "explanation": "Active recovery for taper."
+  },
+  {
+    "week": 14,
+    "day": "Sunday",
+    "type": "Rest",
+    "distance_km": 0.0,
+    "target_pace": null,
+    "notes": "Complete rest",
+    "explanation": "Full recovery."
+  },
+  {
+    "week": 15,
+    "day": "Monday",
+    "type": "Easy",
+    "distance_km": 3.5,
+    "target_pace": "6.48",
+    "notes": "Maintain freshness",
+    "explanation": "Keep legs active."
+  },
+  {
+    "week": 15,
+    "day": "Wednesday",
+    "type": "Tempo",
+    "distance_km": 3.0,
+    "target_pace": "5.15",
+    "notes": "Race pace run",
+    "explanation": "Sharpen pace sense."
+  },
+  {
+    "week": 15,
+    "day": "Saturday",
+    "type": "Rest",
+    "distance_km": 0.0,
+    "target_pace": null,
+    "notes": "Full rest",
+    "explanation": "Rest before race."
+  },
+  {
+    "week": 15,
+    "day": "Sunday",
+    "type": "Race",
+    "distance_km": 10.0,
+    "target_pace": "4.36",
+    "notes": "Race day, hydrate well",
+    "explanation": "Achieve target time."
+  },
+  {
+    "week": 16,
+    "day": "Monday",
+    "type": "Rest",
+    "distance_km": 0.0,
+    "target_pace": null,
+    "notes": "Active rest or very light jog",
+    "explanation": "Recovery after race."
+  }
+]
