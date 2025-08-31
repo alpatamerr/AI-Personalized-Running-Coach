@@ -18,7 +18,7 @@ const buildSystemPromptWithRecentRuns = ({
     return `Run ${idx + 1}: ${dateStr}, ${r.distance_km} km, ${r.duration_minutes} min, ${r.pace} min/km, cadence: ${r.average_cadence || ''}, HR: ${r.average_heartrate || ''}${clusterStr}`;
   }).join('\n');
 
-  return `You are an expert running coach.\n\nCreate a 16-week periodised running plan for the athlete below.\nReturn the answer **as raw JSON** – an array where each element has:\n  week  (int, 1-16),\n  day   (string, e.g. \"Monday\"),\n  type  (string, e.g. \"Long Run\", \"Tempo\", \"Intervals\", \"Easy\", \"Rest\"),\n  distance_km (number, one decimal),\n  target_pace (number, minutes per km with two decimals),\n  notes (string, optional, e.g. \"Focus on form\", \"Hydrate well\"),\n  explanation (string, optional, e.g. \"Long run to build endurance\").\nDo NOT wrap the JSON in markdown or commentary.\n\nRunner profile\n--------------\nName              : ${username}\nGoal distance      : ${goalDistance}\nTarget time        : ${goalTime}\nPreferred run days : ${runDays.join(', ')}\nWeekly distance aim: ${weeklyDistance} km\n\nRecent run history (last 10 runs):\n${runsSummary}\n\nRules\n-----\n• Use 3-week build + 1-week deload structure.\n• Keep weekly km increases ≤ 10%.\n• Each week must include at least one rest day.\n• Long run happens on the last weekend day in runDays.`;
+  return `You are an expert running coach.\n\nCreate a 16-week periodised running plan for the athlete below.\nReturn the answer **as raw JSON** – an array where each element has:\n  week  (int, 1-16),\n  day   (string, e.g. \"Monday\"),\n  type  (string, e.g. \"Long Run\", \"Tempo\", \"Intervals\", \"Easy\", \"Rest\"),\n  distance_km (number, one decimal),\n  target_pace (number, minutes per km with two decimals),\n  notes (string, optional, e.g. \"Focus on form\", \"Hydrate well\"),\n  explanation (string, optional, e.g. \"Long run to build endurance\").\nDo NOT wrap the JSON in markdown or commentary.\n\nRunner profile\n--------------\nName              : ${username}\nGoal distance      : ${goalDistance}\nTarget time        : ${goalTime}\nPreferred run days : ${runDays.join(', ')}\nWeekly distance aim: ${weeklyDistance} km\n\nRecent run history (last 10 runs):\n${runsSummary}\n\nRules\n-----\n• Use 3-week build + 1-week deload structure.\n• Keep weekly km increases ≤ 10%.\n• Each week must include at least one rest day.\n• Long run happens on the last weekend day in runDays.\n• You must generate exactly 16 weeks (week values 1 through 16, no more, no less).\n• Week 16 must end with a "Race" day on the goal distance, at target pace.\n• No training runs are allowed after the Race day in Week 16.`;
 };
 // Helper to get last N runs from training_records (record_type='run')
 const getUserRecentRunsFromTrainingRecords = async (userId, limit = 10) => {
@@ -64,17 +64,30 @@ exports.saveRunPerformance = async (req, res) => {
       `SELECT id FROM training_records WHERE user_id = $1 AND run_date = $2 AND record_type = 'run'`,
       [userId, run_date_str]
     );
+    // Convert empty strings to null and handle pace format
+    const safeDistance = distance_km === '' ? null : parseFloat(distance_km);
+    const safeDuration = duration_minutes === '' ? null : parseFloat(duration_minutes);
+    const safePace = pace === '' ? null : (() => {
+      if (typeof pace === 'string' && pace.includes(':')) {
+        const [mins, secs] = pace.split(':').map(Number);
+        return mins + (secs / 60);
+      }
+      return parseFloat(pace);
+    })();
+    const safeCadence = average_cadence === '' ? null : parseInt(average_cadence);
+    const safeHeartrate = average_heartrate === '' ? null : parseInt(average_heartrate);
+
     if (existing.rows.length) {
       await pool.query(
         `UPDATE training_records SET distance_km = $1, duration_minutes = $2, pace = $3, average_cadence = $4, average_heartrate = $5
          WHERE user_id = $6 AND run_date = $7 AND record_type = 'run'`,
-        [distance_km, duration_minutes, pace, average_cadence, average_heartrate, userId, run_date_str]
+        [safeDistance, safeDuration, safePace, safeCadence, safeHeartrate, userId, run_date_str]
       );
     } else {
       await pool.query(
         `INSERT INTO training_records (user_id, record_type, distance_km, duration_minutes, pace, average_cadence, average_heartrate, run_date, created_at)
          VALUES ($1, 'run', $2, $3, $4, $5, $6, $7, NOW())`,
-        [userId, distance_km, duration_minutes, pace, average_cadence, average_heartrate, run_date_str]
+        [userId, safeDistance, safeDuration, safePace, safeCadence, safeHeartrate, run_date_str]
       );
     }
     return res.json({ success: true });
@@ -192,6 +205,8 @@ const buildSystemPrompt = ({
   • Keep weekly km increases ≤ 10 %.
   • Each week must include at least one rest day.
   • Long run happens on the last weekend day in runDays.
+  • Last week should include race day.
+  • Week 16 must end with a "Race" day on the goal distance, at target pace.
     `;
 };
 
@@ -276,7 +291,7 @@ exports.generateTrainingPlan = async (req, res) => {
       });
     }
     console.log('System prompt:', systemPrompt);
-    const userPrompt = 'Generate the plan now for 16 weeks.';
+    const userPrompt = 'Generate the plan now for always 16 weeks.';
 
     // 4. Call OpenAI ---------------------------------------------------------
     let gptPlan;
