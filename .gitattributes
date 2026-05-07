@@ -1,0 +1,15 @@
+# Ignore documentation, assets, and design files from language stats
+*.css linguist-vendored
+*.html linguist-vendored
+*.png linguist-vendored
+*.gif linguist-vendored
+*.svg linguist-vendored
+*.json linguist-vendored
+*.lock linguist-vendored
+
+# Ignore the heavy frontend UI folder entirely 
+# This shifts the focus to your Python ML and Node.js API logic
+client/* linguist-vendored
+
+# Ensure Python files are prioritized
+*.py linguist-detectable
