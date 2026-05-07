@@ -1,15 +1,25 @@
-# Ignore documentation, assets, and design files from language stats
+# 1. Ignore the massive Frontend (The biggest source of JS)
+client/** linguist-vendored
+
+# 2. Ignore Data, Logs, and Models (These can confuse the stats)
+ml/*.csv linguist-vendored
+ml/*.pkl linguist-vendored
+ml/*.json linguist-vendored
+server/plans/*.json linguist-vendored
+performance_*.txt linguist-vendored
+*.dump linguist-vendored
+output.json linguist-vendored
+
+# 3. Ignore Package Locks and Build Configs
+package-lock.json linguist-vendored
+yarn.lock linguist-vendored
+*.config.js linguist-vendored
+
+# 4. Ignore UI Fluff
 *.css linguist-vendored
 *.html linguist-vendored
-*.png linguist-vendored
-*.gif linguist-vendored
 *.svg linguist-vendored
-*.json linguist-vendored
-*.lock linguist-vendored
+*.gif linguist-vendored
 
-# Ignore the heavy frontend UI folder entirely 
-# This shifts the focus to your Python ML and Node.js API logic
-client/* linguist-vendored
-
-# Ensure Python files are prioritized
+# 5. Force Python to be the lead
 *.py linguist-detectable
