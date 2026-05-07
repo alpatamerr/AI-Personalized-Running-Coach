@@ -1,28 +1,28 @@
-# 1. NUKE THE UI AND LOCK FILES (The biggest sources of JS bytes)
-client/* linguist-vendored
+# 1. HIDE THE UI & LOCK FILES
+client/** linguist-vendored
 package-lock.json linguist-vendored
 yarn.lock linguist-vendored
 
-# 2. NUKE ALL DATA & DUMPS (Linguist thinks JSON/SQL is JS logic)
+# 2. HIDE ALL DATA & DUMPS (The hidden JS byte killers)
 *.json linguist-vendored
 *.csv linguist-vendored
 *.sql linguist-vendored
 *.dump linguist-vendored
 *.pkl linguist-vendored
 ml/*.json linguist-vendored
-server/plans/* linguist-vendored
 
-# 3. NUKE BACKEND UTILS (Keep the logic hidden, focus on ML)
-server/utils/* linguist-vendored
-server/config/* linguist-vendored
-server/routes/* linguist-vendored
+# 3. NUKE THE BACKEND LOGIC (Ignore the bulk JS)
+server/controllers/** linguist-vendored
+server/middleware/** linguist-vendored
+server/routes/** linguist-vendored
+server/utils/** linguist-vendored
+server/config/** linguist-vendored
+server/plans/** linguist-vendored
 
-# 4. PROTECT THE CORE SLIVER (This gives you ~10-20% JS)
-# We only let the main app and controllers be detected
+# 4. KEEP THE ENTRY POINT (This gives you the 5-15% JS sliver)
 server/app.js linguist-detectable
-server/controllers/* linguist-detectable
 
-# 5. FORCE PYTHON TO THE FRONT
+# 5. FORCE ALL PYTHON TO BE DETECTABLE
 *.py linguist-detectable
 ml/*.py linguist-detectable
 import_training_records.py linguist-detectable
