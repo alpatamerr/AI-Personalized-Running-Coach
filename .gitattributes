@@ -1,27 +1,20 @@
-# 1. HIDE THE BULK (The biggest sources of JS/JSON bytes)
+# 1. Kill the 'Byte Monsters' (The files with thousands of lines)
 client/** linguist-vendored
 package-lock.json linguist-vendored
-yarn.lock linguist-vendored
-
-# 2. HIDE CONFIG & TOOLING
-*.config.js linguist-vendored
-*.config.ts linguist-vendored
-.eslint* linguist-vendored
-TrainingPlanCalendarPage.jsx linguist-vendored
-
-# 3. HIDE NON-CODE DATA (JSON files are often counted as JS/Logic)
-ml/*.json linguist-vendored
-ml/*.csv linguist-vendored
-ml/*.pkl linguist-vendored
-server/plans/*.json linguist-vendored
+*.json linguist-vendored
 *.dump linguist-vendored
-output.json linguist-vendored
-performance_*.txt linguist-vendored
+*.csv linguist-vendored
+*.sql linguist-vendored
 
-# 4. PROTECT THE BACKEND (This gives you the remaining ~30% JS)
-# We leave 'server/app.js' and 'server/controllers/' visible
-server/config/* linguist-detectable
+# 2. Kill the 'UI Noise'
+*.css linguist-vendored
+*.html linguist-vendored
+*.svg linguist-vendored
 
-# 5. FORCE PYTHON TO THE TOP
+# 3. PROTECT ONLY THE BACKEND LOGIC (This provides your 30% JS)
+# We do NOT ignore the server folder logic, only the server's data
+server/plans/* linguist-vendored
+
+# 4. FORCE PYTHON TO BE DETECTED FIRST
 *.py linguist-detectable
 ml/*.py linguist-detectable
