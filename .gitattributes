@@ -1,9 +1,17 @@
-# 1. HIDE THE UI & LOCK FILES
+# 1. GLOBAL NUKE: Ignore all JS/JSX/TS logic by default
+*.js linguist-vendored
+*.jsx linguist-vendored
+*.ts linguist-vendored
+*.tsx linguist-vendored
+
+# 2. HIDE THE BULK (UI, Locks, and Config)
 client/** linguist-vendored
+server/** linguist-vendored
 package-lock.json linguist-vendored
 yarn.lock linguist-vendored
+package.json linguist-vendored
 
-# 2. HIDE ALL DATA & DUMPS (The hidden JS byte killers)
+# 3. HIDE ALL DATA (The hidden JS byte killers)
 *.json linguist-vendored
 *.csv linguist-vendored
 *.sql linguist-vendored
@@ -11,18 +19,13 @@ yarn.lock linguist-vendored
 *.pkl linguist-vendored
 ml/*.json linguist-vendored
 
-# 3. NUKE THE BACKEND LOGIC (Ignore the bulk JS)
-server/controllers/** linguist-vendored
-server/middleware/** linguist-vendored
-server/routes/** linguist-vendored
-server/utils/** linguist-vendored
-server/config/** linguist-vendored
-server/plans/** linguist-vendored
-
-# 4. KEEP THE ENTRY POINT (This gives you the 5-15% JS sliver)
+# 4. PROTECT THE BACKEND SLIVER (This gives you ~10-20% JS)
+# Override the ignore specifically for the main app file
 server/app.js linguist-detectable
+server/app.js linguist-vendored=false
 
-# 5. FORCE ALL PYTHON TO BE DETECTABLE
+# 5. FORCE PYTHON TO 65%+ 
 *.py linguist-detectable
+*.py linguist-vendored=false
 ml/*.py linguist-detectable
-import_training_records.py linguist-detectable
+ml/*.py linguist-vendored=false
